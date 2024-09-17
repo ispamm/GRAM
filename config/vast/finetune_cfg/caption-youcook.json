@@ -1,0 +1,48 @@
+{"run_cfg":
+  {"default":"./config/vast/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/vast/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+    {"train":  
+    [{  "type":"annoindexed",
+        "training":true,
+        "name": "youcook_cap",
+        "txt": "datasets/annotations/youcook/descs_cap_train.json",
+        "vision": "datasets/srcdata/youcook/videos",
+        "vision_format": "video_rawvideo",
+        "audio": "datasets/srcdata/youcook/audios",
+        "vision_sample_num": 8,
+        "audio_sample_num": 1,
+        "task" : "cap%tvas",
+        "epoch": 30,
+        "n_workers":8,
+        "batch_size": 64}],
+    "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "youcook_cap",
+        "txt": "datasets/annotations/youcook/descs_cap_test.json",
+        "vision": "datasets/srcdata/youcook/videos",
+        "annfile": "datasets/annotations/youcook/caption_annotation.json",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 16,
+        "audio_sample_num": 1,
+        "audio": "datasets/srcdata/youcook/audios",
+        "task" : "cap%tvas",
+        "n_workers": 8,
+        "batch_size": 64 
+    }]}}
+
+
+
+
+
+                        
+
+
+
+

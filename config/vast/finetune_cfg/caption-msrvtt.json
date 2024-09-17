@@ -1,0 +1,40 @@
+{"run_cfg":
+  {"default":"./config/vast/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/vast/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+      {"train":  
+      [{  "type":"annoindexed",
+          "training":true,
+          "name": "msrvtt_cap",
+          "txt": "datasets/annotations/msrvtt/descs_cap_train.json",
+          "vision": "datasets/srcdata/msrvtt/videos",
+          "vision_transforms":"crop_flip",
+          "audio": "datasets/srcdata/msrvtt/audios",
+          "vision_format": "video_rawvideo",
+          "vision_sample_num": 8,
+          "audio_sample_num": 1,
+          "task" : "cap%tvas",
+          "epoch": 5,
+          "n_workers":8,
+          "batch_size": 64}],
+      "val":                
+      [{
+          "type":"annoindexed",
+          "training":false,
+          "name": "msrvtt_cap",
+          "txt": "datasets/annotations/msrvtt/descs_cap_test.json",
+          "vision": "datasets/srcdata/msrvtt/videos",
+          "audio": "datasets/srcdata/msrvtt/audios",
+          "vision_transforms":"crop_flip",
+          "annfile": "datasets/annotations/msrvtt/caption_annotation.json",
+          "vision_format": "video_rawvideo",
+          "vision_sample_num": 16,
+          "audio_sample_num": 1,
+          "task" : "cap%tvas",
+          "n_workers": 8,
+          "batch_size": 64 
+      }]}}

@@ -1,0 +1,33 @@
+{"run_cfg":
+  {"default":"./config/vast/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/vast/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+ 
+      {"train":  
+      [{  "type":"annoindexed",
+          "training":true,
+          "name": "clothov2_cap",
+          "txt": "datasets/annotations/clothov2/descs_cap_trainval.json",
+          "audio": "datasets/srcdata/clothov2/audios",
+          "audio_sample_num": 3,
+          "task" : "cap%ta",
+          "epoch": 10,
+          "n_workers":8,
+          "batch_size": 64}],
+      "val":                
+      [{
+          "type":"annoindexed",
+          "training":false,
+          "name": "clothov2_cap",
+          "txt": "datasets/annotations/clothov2/descs_cap_test.json",
+          "audio": "datasets/srcdata/clothov2/audios",
+          "annfile": "datasets/annotations/clothov2/caption_annotation.json",
+          "audio_sample_num": 3,
+          "task" : "cap%ta",
+          "n_workers": 8,
+          "batch_size": 64 
+      }]}}

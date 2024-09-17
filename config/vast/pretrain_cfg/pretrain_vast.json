@@ -1,0 +1,105 @@
+{ "run_cfg":
+  {"default":"./config/default_run_cfg.json",
+  "learning_rate": 5e-05
+  },
+  
+  
+  "model_cfg":
+  { "default":"./config/newvlp/default_model_cfg.json",
+    "vision_encoder_type":"evaclip01_giant"
+
+},
+    "data_cfg":{"train":
+
+            [{"type":"annoindexed",
+            "training":true,
+            "name": "vast27m",
+            "txt": "/PATH/TO/vast27m/train_desc.json",
+            "vision": "/PATH/TO/vast27m/videos",                         
+            "audio":"/PATH/TO/vast27m/audios",      
+            "datatype": "video_rawvideo",
+            "vision_sample_num": 1,
+            "audio_sample_num": 1,
+            "task" : "ret%tvas%tvs%tv%ta_cap%tvas%tvs%tv%ta",
+            "steps": 60000,
+            "n_workers":8,
+            "batch_size": 1024},
+        
+            {"type":"annoindexed",
+            "training":true,
+            "name": "valor1m",
+            "txt": "/PATH/TO/valor1m/train_desc.json",
+            "vision": "/PATH/TO/valor1m/videos",                         
+            "audio":"/PATH/TO/valor1m/audios",                                                  
+            "vision_format": "video_rawvideo",
+            "vision_sample_num": 1,    
+            "audio_sample_num": 1,                                
+            "task" : "ret%tva%tv%ta_cap%tva%tv%ta",
+            "steps": 25000,
+            "n_workers":4,
+            "batch_size": 1024},
+
+        
+        
+            {"type":"annoindexed",
+            "name": "cc4m",
+            "training":true,            
+            "vision_format": "image_rawimage",       
+            "vision":"/PATH/TO/cc4m/images",
+            "txt":"/PATH/TO/cc4m/train_desc.json",  
+            "task" : "ret%tv_cap%tv",
+            "steps": 55000,
+            "n_workers":2,
+            "batch_size": 2048},
+
+            {"type":"annoindexed",
+            "name": "cc12m",
+            "training":true,            
+            "vision_format": "image_rawimage",         
+            "vision":"/PATH/TO/cc12m/images",
+            "txt":"/PATH/TO/cc12m/train_desc.json",  
+            "task" : "ret%tv_cap%tv",
+            "steps": 20000,
+            "n_workers":4,
+            "batch_size": 2048},
+
+
+            {"type":"annoindexed",
+            "name": "laion2b",
+            "training":true,                      
+            "vision_format": "image_rawimage",
+                "vision":"/PATH/TO/laion2b/images",
+                "txt":"/PATH/TO/laion2b/train_desc.json",  
+                "task" : "ret%tv_cap%tv",
+                "steps": 55000,
+                "n_workers":4,
+                "batch_size": 2048},
+            
+                
+            {"type":"annoindexed",
+            "training":true,
+            "name": "audioset-SL",
+            "txt": "/PATH/TO/AudioSetSL/train_desc.json",
+            "audio":"/PATH/TO/AudioSetSL/audios",
+            "audio_sample_num": 1,     
+            "task" : "ret%ta_cap%ta",
+            "steps": 7500,
+            "n_workers":4,
+            "batch_size": 1024},
+
+        {   "type":"annoindexed",
+            "training":true,
+            "name": "freesound",
+            "txt": "/PATH/TO/FreeSound/train_desc.json",
+            "audio":"/PATH/TO/FreeSound/audios",
+            "audio_sample_num": 2,     
+            "task" : "ret%ta_cap%ta",
+            "steps": 7500,
+            "n_workers":4,
+            "batch_size": 1024}],
+
+
+
+
+                    "val":                
+                    []}}

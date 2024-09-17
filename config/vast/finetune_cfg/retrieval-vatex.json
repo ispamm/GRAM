@@ -1,0 +1,40 @@
+{ "run_cfg":
+  {"default":"./config/vast/default_run_cfg.json"},
+  
+  "model_cfg":
+  {"default":"./config/vast/default_model_cfg.json"},
+
+  "data_cfg":         
+  {"train":  
+  [{  "type":"annoindexed",
+      "training":true,
+      "name": "vatex_ret",
+      "txt": "datasets/annotations/vatex/descs_ret_train.json",
+      "vision": "datasets/srcdata/vatex/videos",
+      "audio": "datasets/srcdata/vatex/audios",
+      "vision_format": "video_rawvideo",
+      "vision_sample_num": 8,
+      "audio_sample_num": 1,
+      "task" : "ret%tvas",
+      "epoch": 2.5,
+      "n_workers":8,
+      "batch_size": 64}], 
+  "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "vatex_ret",
+        "txt": "datasets/annotations/vatex/descs_ret_test.json",
+        "vision": "datasets/srcdata/vatex/videos",
+        "audio": "datasets/srcdata/vatex/audios",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 16,
+        "audio_sample_num": 1,
+        "task" : "ret%tvas",
+        "n_workers": 8,
+        "batch_size": 64 
+    }]}}
+
+
+
+

@@ -1,0 +1,43 @@
+{ "run_cfg":
+  {"default":"./config/vast/default_run_cfg.json"},
+  
+  "model_cfg":
+  {"default":"./config/vast/default_model_cfg.json",
+   "max_caption_len":70},
+
+  "data_cfg":         
+  {"train":  
+  [{  "type":"annoindexed",
+      "training":true,
+      "name": "didemo_ret",
+      "txt": "datasets/annotations/didemo/descs_ret_train.json",
+      "vision": "datasets/srcdata/didemo/videos",
+      "audio": "datasets/srcdata/didemo/audios",
+      "vision_format": "video_rawvideo",
+      "vision_sample_num": 8,
+      "audio_sample_num": 2,
+      "task" : "ret%tva",
+      "epoch": 40,
+      "n_workers":8,
+      "batch_size": 64}], 
+  "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "didemo_ret",
+        "txt": "datasets/annotations/didemo/descs_ret_test.json",
+        "vision": "datasets/srcdata/didemo/videos",
+        "audio": "datasets/srcdata/didemo/audios",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 32,
+        "audio_sample_num": 2,
+        "task" : "ret%tva",
+        "n_workers": 8,
+        "batch_size": 64 
+    }]}}
+
+
+
+
+
+                
