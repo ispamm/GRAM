@@ -1,11 +1,13 @@
+*.out
+wandb/*
 # ctags
+downstream/*
 tags
 apex/build
 aic_caption/
 cococaption/pycocoevalcap/spice
 output/
 ouptut/
-datasets/
 lpips/
 upload/
 __pycache__

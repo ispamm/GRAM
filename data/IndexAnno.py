@@ -13,7 +13,15 @@ from .audio_mapper import AudioMapper
 from torch.utils.data import ConcatDataset
 import glob
 
-
+def check_files_start_with(directory, start_string):
+    # List all files in the directory
+    files = os.listdir(directory)
+    
+    # Check if any file starts with the given string
+    for file in files:
+        if file.startswith(start_string):
+            return file
+    return None
 
 
 class AnnoIndexedDataset(Dataset):
@@ -31,9 +39,13 @@ class AnnoIndexedDataset(Dataset):
                 if os.path.exists(path):
                     self.annos_new.append(key)
             if self.name == "didemo_ret":
-                path = os.path.join(d_cfg['audio'],f"audio_{key['video_id']}.mp3")
-                if os.path.exists(path):
+                # path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
+                filename = check_files_start_with(d_cfg['audio'], key['video_id'])
+                if filename is not None:
+                    key['video_id'] = filename[:-4]
                     self.annos_new.append(key)
+                # if os.path.exists(path):
+                #     self.annos_new.append(key)
             if self.name == "msrvtt_ret":
                 path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
                 if os.path.exists(path):
@@ -45,8 +57,9 @@ class AnnoIndexedDataset(Dataset):
                     if "desc" in key:
                         self.annos_new.append(key)
             if self.name == "audiocaps_ret":
+                import pdb; pdb.set_trace()
                 key['video_id'] = key["video_id"].split(".")[0]
-                path = os.path.join(d_cfg['audio'],f"{key['video_id']}.wav")
+                path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
                 if os.path.exists(path):
                     path = os.path.join(d_cfg['vision'],f"{key['video_id']}.mp4")
                     if os.path.exists(path):

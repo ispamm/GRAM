@@ -23,7 +23,7 @@ def check_extension(id,folder=str('G:/Giordano/downstream_datasets/YouCook2/vide
         #print(file)
         if file.startswith(str(path)):#f'{G:/Giordano/downstream_datasets/YouCook2/videos}\\{id}')):
             if(os.path.isfile(file)):
-                #print(file)
+                # print(file)
                 return file
     #else:
     print(f"None{id}")
@@ -165,7 +165,6 @@ class VisionMapper(object):
                             cap.release()
                             return None
 
-
                         # Get the FPS of the video
                         fps = cap.get(cv2.CAP_PROP_FPS)
 
@@ -178,7 +177,6 @@ class VisionMapper(object):
 
                         # Split the frames for sampling
                         frames_splited = np.array_split(frames_ids, sample_num)
-
                         # Select the frames based on whether it's training or evaluation mode
                         if self.training:
                             sample_idx = [random.choice(i) for i in frames_splited]
@@ -194,14 +192,15 @@ class VisionMapper(object):
                                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
                                 frames.append(frame_rgb)
                         
-                        while len(frames)<sample_num and frames_ids!=[]:
-                            idx = random.choice(frames_ids) 
-                            frames_ids.remove(idx)
-                            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
-                            ret, frame = cap.read()  # Read the frame
-                            if ret:
-                                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
-                                frames.append(frame_rgb)
+                        # while len(frames)<sample_num and frames_ids!=[]:
+                        #     idx = random.choice(frames_ids) 
+                        #     frames_ids.remove(idx)
+                        #     cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
+                        #     ret, frame = cap.read()  # Read the frame
+                        #     print(ret,frame)
+                        #     if ret:
+                        #         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+                        #         frames.append(frame_rgb)
 
                         if len(frames)<sample_num:
                             cap.release()
