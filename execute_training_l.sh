@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH -A IscrC_GenOpt
+#SBATCH -A IscrC_NeuroGen
 #SBATCH -p boost_usr_prod
 #SBATCH --time=23:00:00      
 #SBATCH --nodes=1            
@@ -31,6 +31,6 @@ srun python3 -m torch.distributed.launch
 --checkpointing true 
 --first_eval true 
 --save_best true 
---config ./config/vast/finetune_cfg/retrieval-didemo.json 
+--config ./config/vast/finetune_cfg/retrieval-activitynet.json 
 --pretrain_dir /leonardo_scratch/fast/IscrC_GenOpt/giordano/VAST/output/vast/pretrain_vast/downstream/finetuneVolume256batchlossonlyvolume4Mod120k 
---output_dir ./downstream/finetune_didemo
+--output_dir ./downstream/finetune_activity

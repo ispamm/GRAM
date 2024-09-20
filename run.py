@@ -36,7 +36,7 @@ def main():
         "architecture": "VAST",
         "dataset": args.data_cfg.train[0]['name'],
         "epochs": args.data_cfg.train[0]['epoch'],
-        "name": "finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + args.data_cfg.validation[0]['vision_sample_num'],  
+        "name": "finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + str(args.data_cfg.val[0]['vision_sample_num']),  
         }
         )
 
