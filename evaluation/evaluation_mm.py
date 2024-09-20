@@ -188,7 +188,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         store_dict[f'feat_cond_{task}'] = []
         store_dict[f'condition_feats_{task}'] = []        
 
-    for i, batch in enumerate(val_loader):
+    for i, batch in tqdm(enumerate(val_loader), total=len(val_loader)):
         batch = edict(batch)
         evaluation_dict= model(batch, tasks, compute_loss=False)
         feat_t.append(evaluation_dict['feat_t'])
