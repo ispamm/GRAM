@@ -16,7 +16,7 @@
       "vision_format": "video_rawvideo",
       "vision_sample_num": 2,
       "audio_sample_num": 1,   
-      "task" : "ret%tv%ta_cap%tvas",
+      "task" : "ret%tv%ta",
       "epoch": 5,
       "n_workers":8,
       "batch_size": 256}], 
@@ -32,7 +32,7 @@
         "audio": "../MSRVTT/audio_test",
         "vision_sample_num": 8,
         "audio_sample_num": 1,   
-        "task" : "ret%tva",
+        "task" : "ret%tvas",
         "n_workers": 8,
         "batch_size": 64 
     }]}}

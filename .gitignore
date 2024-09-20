@@ -50,6 +50,8 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+old_wandb/*
+experiments/*
 # Unit test / coverage reports
 htmlcov/
 .tox/

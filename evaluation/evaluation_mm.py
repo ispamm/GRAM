@@ -238,7 +238,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
     torch.save(feat_t,f"./experiments/{global_step}text_features_msrvtt.pt")
     torch.save(feat_v,f"./experiments/{global_step}video_features_msrvtt.pt")
     torch.save(feat_a,f"./experiments/{global_step}audio_features_msrvtt.pt")
-    torch.save(feat_s,f"./experiments/{global_step}subtitles_features_msrvtt.pt")
+    #torch.save(feat_s,f"./experiments/{global_step}subtitles_features_msrvtt.pt")
 
     area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
 
@@ -261,6 +261,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
 
     store_dict[f'condition_feats_{task}'] = torch.cat(store_dict[f'condition_feats_{task}'],dim=0)
     itm_rerank_num = model.config.itm_rerank_num
+    #itm_rerank_num = 30
     score_matrix = refine_score_matrix(store_dict[f'condition_feats_{task}'], input_ids, attention_mask, -area , model, itm_rerank_num, direction='forward')#-(area-video_similarity)
     log = compute_metric_ret(score_matrix, ids, ids_txt, direction='forward')
     log = {k.replace('forward','area_video'): v for k,v in log.items()}
@@ -289,22 +290,22 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         val_log[f'ret_itc_{task}'] = log
 
 
-    #### compute itm_score
-    for task in subtasks:
-        if task!="tv" and task!="tvas" and task!="tva":
-            store_dict[f'condition_feats_{task}'] = torch.cat(store_dict[f'condition_feats_{task}'],dim=0)
-        itm_rerank_num = model.config.itm_rerank_num
-        score_matrix = refine_score_matrix(store_dict[f'condition_feats_{task}'], input_ids, attention_mask, store_dict[f'score_matrix_t_cond_{task}'], model, itm_rerank_num, direction='forward')
-        log = compute_metric_ret(score_matrix, ids, ids_txt, direction='forward')
-        log = {k.replace('forward','video'): v for k,v in log.items()}
+    # #### compute itm_score
+    # for task in subtasks:
+    #     if task!="tv" and task!="tvas" and task!="tva":
+    #         store_dict[f'condition_feats_{task}'] = torch.cat(store_dict[f'condition_feats_{task}'],dim=0)
+    #     itm_rerank_num = model.config.itm_rerank_num
+    #     score_matrix = refine_score_matrix(store_dict[f'condition_feats_{task}'], input_ids, attention_mask, store_dict[f'score_matrix_t_cond_{task}'], model, itm_rerank_num, direction='forward')
+    #     log = compute_metric_ret(score_matrix, ids, ids_txt, direction='forward')
+    #     log = {k.replace('forward','video'): v for k,v in log.items()}
 
-        if model.config.ret_bidirection_evaluation:
-            score_matrix = refine_score_matrix(store_dict[f'condition_feats_{task}'], input_ids, attention_mask, store_dict[f'score_matrix_t_cond_{task}'], model, itm_rerank_num, direction='backward')
-            log2 = compute_metric_ret(score_matrix, ids, ids_txt, direction='backward')
-            log2 = {k.replace('backward','txt'): v for k,v in log2.items()}
-            log.update(log2)
+    #     if model.config.ret_bidirection_evaluation:
+    #         score_matrix = refine_score_matrix(store_dict[f'condition_feats_{task}'], input_ids, attention_mask, store_dict[f'score_matrix_t_cond_{task}'], model, itm_rerank_num, direction='backward')
+    #         log2 = compute_metric_ret(score_matrix, ids, ids_txt, direction='backward')
+    #         log2 = {k.replace('backward','txt'): v for k,v in log2.items()}
+    #         log.update(log2)
 
-        val_log[f'ret_itm_{task}'] = log
+    #     val_log[f'ret_itm_{task}'] = log
 
     if dist.get_rank() == 0:
         wandb.log(val_log)

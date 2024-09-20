@@ -546,7 +546,7 @@ class VAST(MMGeneralModule):
                 # ground_truth = torch.zeros(batch_size*3).long().cuda()
                 # ground_truth[:batch_size] = 1
                 # loss = F.cross_entropy(logits,ground_truth)
-                loss_itm.append(torch.tensor(0))#*(self.itm_ratio * loss))
+                #loss_itm.append(torch.tensor(0))#*(self.itm_ratio * loss))
 
             loss_itc = sum(loss_itc)/len(loss_itc)
             loss_dict['loss_itc'] = loss_itc          

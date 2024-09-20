@@ -31,7 +31,7 @@ class AnnoIndexedDataset(Dataset):
                 if os.path.exists(path):
                     self.annos_new.append(key)
             if self.name == "didemo_ret":
-                path = os.path.join(d_cfg['audio'],f"audio_{key['video_id']}.mp3")
+                path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
                 if os.path.exists(path):
                     self.annos_new.append(key)
             if self.name == "msrvtt_ret":

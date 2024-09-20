@@ -191,17 +191,24 @@ class VisionMapper(object):
                             cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
                             ret, frame = cap.read()  # Read the frame
                             if ret:
+                                #if frame!=None: 
                                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
                                 frames.append(frame_rgb)
+                                
+                            else:
+                                return None
                         
-                        while len(frames)<sample_num and frames_ids!=[]:
-                            idx = random.choice(frames_ids) 
-                            frames_ids.remove(idx)
-                            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
-                            ret, frame = cap.read()  # Read the frame
-                            if ret:
-                                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
-                                frames.append(frame_rgb)
+                        #while len(frames)<sample_num and frames_ids!=[]:
+                        if len(frames)<sample_num:
+                            print(f'problem with {id_}')
+                            return None
+                            #idx = random.choice(frames_ids) 
+                            #frames_ids.remove(idx)
+                            #cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
+                            #ret, frame = cap.read()  # Read the frame
+                            #if ret:
+                            #    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+                            #    frames.append(frame_rgb)
 
                         if len(frames)<sample_num:
                             cap.release()

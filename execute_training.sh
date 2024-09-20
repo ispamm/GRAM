@@ -15,10 +15,12 @@ export WANDB_MODE=offline
 module load anaconda3
 source activate vast
 
-config_name='pretrain_vast'
+config_name='pretrain_vast/downstream/finetuneVolume256batchlossonlyvolume4Mod120k'
 output_dir=./output/vast/$config_name
 
+save_dir=./output/vast/pretrain_vast/
 ### VIDEO-RET
+
 
 #retrieval-msrvtt
 srun python3 -m torch.distributed.launch \
@@ -31,7 +33,6 @@ srun python3 -m torch.distributed.launch \
 --checkpointing true \
 --first_eval true \
 --save_best true \
---config ./config/vast/finetune_cfg/finetune-area.json \
+--config ./config/vast/finetune_cfg/retrieval-msrvtt.json \
 --pretrain_dir $output_dir \
---output_dir $output_dir/downstream/finetuneVolume256batchlossonlyvolume4Mod150kProvaCaption \
-
+--output_dir $save_dir/downstream/finetuneMSRVTT4 \

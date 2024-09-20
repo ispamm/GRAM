@@ -144,7 +144,7 @@ def volume_computation4(language, video, audio, subtitles):
     G = torch.stack([
         torch.stack([ll, lv, la, ls], dim=-1),  # First row of the Gram matrix
         torch.stack([lv, vv, va, vs], dim=-1),  # Second row of the Gram matrix
-        torch.stack([la, va, aa, sa], dim=-1),  # Third row of the Gram matrix
+        torch.stack([la, va,aa, sa], dim=-1),  # Third row of the Gram matrix
         torch.stack([ls, vs, sa, ss], dim=-1)   # Fourth row of the Gram matrix
     ], dim=-2)
 

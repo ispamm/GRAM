@@ -117,7 +117,7 @@ def train(model, optimizer, train_loader, val_loaders, run_cfg, start_step=0, ve
 
 
         
-        if (global_step+1) % 50==0:#run_cfg.valid_steps == 0:
+        if (global_step+1) % 500==0:#run_cfg.valid_steps == 0:
             eval_log = evaluate_fn(model, val_loaders, run_cfg, global_step)
 
             if dist.get_rank() == 0:
