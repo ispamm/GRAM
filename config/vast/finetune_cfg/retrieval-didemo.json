@@ -11,7 +11,7 @@
       "training":true,
       "name": "didemo_ret",
       "txt": "datasets/annotations/didemo/descs_ret_train.json",
-      "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/videos",
+      "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/didemo/videos",
       "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/didemo/audios",
       "vision_format": "video_rawvideo",
       "vision_sample_num": 8,
@@ -26,15 +26,17 @@
         "training":false,
         "name": "didemo_ret",
         "txt": "datasets/annotations/didemo/descs_ret_test.json",
-        "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/videos",
+        "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/didemo/videos",
         "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/didemo/audios",
         "vision_format": "video_rawvideo",
-        "vision_sample_num": 32,
+        "vision_sample_num": 8,
         "audio_sample_num": 2,
         "task" : "ret%tva",
         "n_workers": 8,
         "batch_size": 64 
-    }]}}
+    }]}
+    
+  }
 
 
 

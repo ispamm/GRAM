@@ -1,7 +1,7 @@
 #!/bin/sh
 #SBATCH -A IscrC_GenOpt
 #SBATCH -p boost_usr_prod
-#SBATCH --time=14:00:00      
+#SBATCH --time=23:00:00      
 #SBATCH --nodes=1            
 #SBATCH --ntasks-per-node=1    
 #SBATCH --gres=gpu:4          
@@ -24,7 +24,7 @@ conda activate vast
 srun python3 -m torch.distributed.launch 
 --nnodes 1 
 --node_rank 0 
---nproc_per_node 1 
+--nproc_per_node 4 
 --master_port 9834 
 ./run.py 
 --learning_rate 2e-5 
@@ -32,6 +32,5 @@ srun python3 -m torch.distributed.launch
 --first_eval true 
 --save_best true 
 --config ./config/vast/finetune_cfg/retrieval-didemo.json 
---pretrain_dir /leonardo_scratch/fast/IscrC_GenOpt/giordano/VAST/output/vast/pretrain_vast/ 
---output_dir ./downstream/finetuneVolume256batchlossonlyvolume4Mod150kProvaCaption 
-
+--pretrain_dir /leonardo_scratch/fast/IscrC_GenOpt/giordano/VAST/output/vast/pretrain_vast/downstream/finetuneVolume256batchlossonlyvolume4Mod120k 
+--output_dir ./downstream/finetune_didemo

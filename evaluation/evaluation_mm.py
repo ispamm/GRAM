@@ -194,7 +194,8 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         feat_t.append(evaluation_dict['feat_t'])
         feat_a.append(evaluation_dict['feat_a'])
         feat_v.append(evaluation_dict['feat_v'])
-        feat_s.append(evaluation_dict['feat_s'])
+        if 'feat_s' in evaluation_dict.keys():
+            feat_s.append(evaluation_dict['feat_s'])
       
         input_ids.append(evaluation_dict['input_ids'])
         attention_mask.append(evaluation_dict['attention_mask'])
@@ -232,16 +233,18 @@ def evaluate_ret(model, tasks, val_loader, global_step):
     feat_v = torch.cat(feat_v, dim = 0)
     feat_v = ddp_allgather(feat_v)
 
-    feat_s = torch.cat(feat_s, dim = 0)
-    feat_s = ddp_allgather(feat_s)
+    if len(feat_s)>0:
+        feat_s = torch.cat(feat_s, dim = 0)
+        feat_s = ddp_allgather(feat_s)
 
-    torch.save(feat_t,f"./experiments/{global_step}text_features_msrvtt.pt")
-    torch.save(feat_v,f"./experiments/{global_step}video_features_msrvtt.pt")
-    torch.save(feat_a,f"./experiments/{global_step}audio_features_msrvtt.pt")
+    # torch.save(feat_t,f"./experiments/{global_step}text_features_msrvtt.pt")
+    # torch.save(feat_v,f"./experiments/{global_step}video_features_msrvtt.pt")
+    # torch.save(feat_a,f"./experiments/{global_step}audio_features_msrvtt.pt")
     #torch.save(feat_s,f"./experiments/{global_step}subtitles_features_msrvtt.pt")
-
-    area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
-
+    if len(feat_s)>0:
+        area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
+    else:
+        area = volume_computation3(feat_t,feat_v,feat_a)
     log = compute_metric_ret_area(area, ids, ids_txt, direction='forward')
     log = {k.replace('forward','area'): v for k,v in log.items()}
 

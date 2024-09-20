@@ -15,8 +15,9 @@ from torch.cuda.amp import autocast, GradScaler
 import wandb
 
 
-def train(model, optimizer, train_loader, val_loaders, run_cfg, start_step=0, verbose_time=False):
-  
+def train(model, optimizer, train_loader, val_loaders, args, start_step=0, verbose_time=False):
+    run_cfg = args.run_cfg
+    dataset_cfg = args.data_cfg.train[0]
     if dist.get_rank() == 0:
         pbar = tqdm(total=run_cfg.num_train_steps, initial=start_step)
         model_saver = ModelSaver(os.path.join(run_cfg.output_dir, 'ckpt'),remove_before_ckpt=run_cfg.remove_before_ckpt)
@@ -117,7 +118,7 @@ def train(model, optimizer, train_loader, val_loaders, run_cfg, start_step=0, ve
 
 
         
-        if (global_step+1) % 500==0:#run_cfg.valid_steps == 0:
+        if (global_step+1) % run_cfg.valid_steps == 0:
             eval_log = evaluate_fn(model, val_loaders, run_cfg, global_step)
 
             if dist.get_rank() == 0:

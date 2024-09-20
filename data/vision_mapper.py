@@ -15,12 +15,14 @@ import cv2
 
 def check_extension(id,folder=str('G:/Giordano/downstream_datasets/YouCook2/videos')):
     files_in_folder = glob.glob(os.path.join(folder, '*'))
-    #print(files_in_folder)
+    # print(files_in_folder)
     # Iterate over each .mp4 file
-    #print(folder)
+    # print(folder)
     for file in files_in_folder:
         path = os.path.join(folder,id)
-        #print(file)
+        # print(file)
+        # print(path)
+        # print("CIAAAA")
         if file.startswith(str(path)):#f'{G:/Giordano/downstream_datasets/YouCook2/videos}\\{id}')):
             if(os.path.isfile(file)):
                 # print(file)
@@ -154,6 +156,7 @@ class VisionMapper(object):
                         #if not os.path.exists(video_path):
                         #    video_path = video_path.replace('.webm','.mkv')
                         #print(id_)
+                        # import pdb; pdb.set_trace()
                         video_path = check_extension(id_,self.vision)
                         #print(video_path)
                            # Open the video using OpenCV

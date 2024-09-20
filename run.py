@@ -30,11 +30,13 @@ def main():
         # track hyperparameters and run metadata
         config={
         "desc":"Finetuning MSRVTT prima prova",
-        "batch-size": 32,
+        "batch-size-train": args.data_cfg.train[0]['batch_size'],
+        "batch-size-val": args.data_cfg.val[0]['batch_size'],
         "ngpus":4,
         "architecture": "VAST",
-        "dataset": "MSRVTT",
-        "epochs": 3,
+        "dataset": args.data_cfg.train[0]['name'],
+        "epochs": args.data_cfg.train[0]['epoch'],
+        "name": "finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + args.data_cfg.validation[0]['vision_sample_num'],  
         }
         )
 
@@ -61,7 +63,7 @@ def main():
         ### start training
 
 
-        train(model, optimizer, train_loader, val_loaders, args.run_cfg, start_step = start_step, verbose_time=False)
+        train(model, optimizer, train_loader, val_loaders, args, start_step = start_step, verbose_time=False)
 
     elif args.run_cfg.mode == 'testing':
         ### build model

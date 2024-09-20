@@ -402,8 +402,9 @@ class VAST(MMGeneralModule):
             feat_a = self.batch_get(batch,'feat_a')
             feat_a_all = concat_all_gather(feat_a)
             #Extract subtitles features
-            feat_s = self.batch_get(batch,'feat_s')
-            feat_s_all = concat_all_gather(feat_s)
+            if "raw_subtitles" in batch.keys():
+                feat_s = self.batch_get(batch,'feat_s')
+                feat_s_all = concat_all_gather(feat_s)
 
             caption_tokens = self.batch_get(batch, 'caption_tokens')
             input_ids, attention_mask = caption_tokens.input_ids, caption_tokens.attention_mask
@@ -415,13 +416,19 @@ class VAST(MMGeneralModule):
             #           VOLUME ITC
 
             #Volume (Text, batch_all)
-            volume = volume_computation4(feat_t,feat_v_all,feat_a_all,feat_s_all)
-            volume = volume / self.contra_temp
-
+            if "raw_subtitles" in batch.keys():
+                volume = volume_computation4(feat_t,feat_v_all,feat_a_all,feat_s_all)
+                volume = volume / self.contra_temp
+            else:
+                volume = volume_computation3(feat_t,feat_v_all,feat_a_all)
+                volume = volume / self.contra_temp
             #AreaT (Video,batch_all)
-            volumeT = volume_computation4(feat_t_all,feat_v,feat_a,feat_s).T
-            volumeT = volumeT / self.contra_temp
-            
+            if "raw_subtitles" in batch.keys():
+                volumeT = volume_computation4(feat_t_all,feat_v,feat_a,feat_s).T
+                volumeT = volumeT / self.contra_temp
+            else:
+                volumeT = volume_computation3(feat_t_all,feat_v,feat_a).T
+                volumeT = volumeT / self.contra_temp
             rank = dist.get_rank()
             bs = feat_t.size(0)
             targets = torch.linspace(rank * bs, rank * bs + bs - 1, bs, dtype=int).to(volume.device)
@@ -564,9 +571,12 @@ class VAST(MMGeneralModule):
             feat_v = self.batch_get(batch,'feat_v')
             evaluation_dict['feat_v'] = feat_v 
             feat_a = self.batch_get(batch,'feat_a')
-            evaluation_dict['feat_a'] = feat_a 
-            feat_s = self.batch_get(batch,'feat_s')
-            evaluation_dict['feat_s'] = feat_s
+            evaluation_dict['feat_a'] = feat_a
+            
+            if "raw_subtitles" in batch.keys(): 
+                feat_s = self.batch_get(batch,'feat_s')
+                evaluation_dict['feat_s'] = feat_s
+            
 
             caption_tokens = self.batch_get(batch,'caption_tokens')
             evaluation_dict['input_ids'] = caption_tokens.input_ids

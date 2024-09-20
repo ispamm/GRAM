@@ -50,7 +50,7 @@ class AnnoIndexedDataset(Dataset):
                     self.annos_new.append(key)
             if self.name == "activitynet_ret":
                 path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
-                print(key)
+                # print(key)
                 if os.path.exists(path):
                     if "desc" in key:
                         self.annos_new.append(key)
