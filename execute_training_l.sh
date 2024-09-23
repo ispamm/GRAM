@@ -13,7 +13,7 @@ echo "NODELIST="${SLURM_NODELIST}
 cd /leonardo_scratch/fast/IscrC_NeuroGen/luigi/GRAM
 export WANDB_MODE=offline
 module load anaconda3
-conda activate vast
+source activate vast
 
 # config_name='pretrain_vast'
 # output_dir=./output/vast/$config_name

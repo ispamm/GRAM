@@ -216,7 +216,6 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--vision_resolution", default=224, type=int)
     parser.add_argument("--local-rank", type=int, default=os.environ['LOCAL_RANK'])
-    parser.add_argument("--local_rank", type=int, default=os.environ['LOCAL_RANK'])
     parser.add_argument("--checkpoint", default=None, type=str)
     parser.add_argument("--output_dir", default='output/', type=str)
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1)

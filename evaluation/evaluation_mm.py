@@ -191,6 +191,8 @@ def evaluate_ret(model, tasks, val_loader, global_step):
     for i, batch in tqdm(enumerate(val_loader), total=len(val_loader)):
         batch = edict(batch)
         evaluation_dict= model(batch, tasks, compute_loss=False)
+        # evaluation_dict = {k: v.cpu() if isinstance(v, torch.Tensor) else v for k, v in evaluation_dict.items()}
+
         feat_t.append(evaluation_dict['feat_t'])
         feat_a.append(evaluation_dict['feat_a'])
         feat_v.append(evaluation_dict['feat_v'])

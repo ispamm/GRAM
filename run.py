@@ -25,7 +25,8 @@ def main():
         # start a new wandb run to track this script
         wandb.init(
         # set the wandb project where this run will be logged
-        project="FinetuningVast",
+        project ="FinetuningVast",
+        name = args.run_cfg.mode+"_finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + str(args.data_cfg.val[0]['vision_sample_num']),  
 
         # track hyperparameters and run metadata
         config={
@@ -36,7 +37,6 @@ def main():
         "architecture": "VAST",
         "dataset": args.data_cfg.train[0]['name'],
         "epochs": args.data_cfg.train[0]['epoch'],
-        "name": "finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + str(args.data_cfg.val[0]['vision_sample_num']),  
         }
         )
 
@@ -71,7 +71,7 @@ def main():
 
         ### create datasets and dataloader
         val_loaders = create_val_dataloaders(args)
-
+        print("TESTING MODE")
         ### start evaluation
         test(model, val_loaders, args.run_cfg)                                 
 
