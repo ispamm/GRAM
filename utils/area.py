@@ -199,7 +199,7 @@ def volume_computation5(language, video, audio, subtitles, depth):
     dd = torch.einsum('bi,bi->b', depth, depth).unsqueeze(0).expand(batch_size1, -1)
     dv = torch.einsum('bi,bi->b', depth, video).unsqueeze(0).expand(batch_size1, -1)
     da = torch.einsum('bi,bi->b', depth, audio).unsqueeze(0).expand(batch_size1, -1) 
-    ds = torch.einsum('bi,bi->b', depth, subtitle).unsqueeze(0).expand(batch_size1, -1)
+    ds = torch.einsum('bi,bi->b', depth, subtitles).unsqueeze(0).expand(batch_size1, -1)
 
 
     # Stack the results to form the Gram matrix for each pair (shape: [batch_size1, batch_size2, 4, 4])

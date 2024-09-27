@@ -12,7 +12,11 @@ from utils.tool import split
 import os
 import glob
 import cv2
-
+import sys
+# current_file_path = os.path.abspath(__file__)
+# current_dir = os.path.dirname(current_file_path)
+# sys.path.append(current_dir)
+# from chronodepth import extract_depth
 def check_extension(id,folder=str('G:/Giordano/downstream_datasets/YouCook2/videos')):
     files_in_folder = glob.glob(os.path.join(folder, '*'))
     # print(files_in_folder)
@@ -100,7 +104,7 @@ class VisionMapper(object):
 
 
     def read(self, id_):
-      
+
         if self.vision_format.startswith('video'):
             if self.vision_format == 'video_feats':
 
@@ -131,19 +135,11 @@ class VisionMapper(object):
                         meanfeats.append(feat[s])
                 return torch.stack(meanfeats)
 
-
-
-
-
             else:
                 vision_pixels = []        
                 sample_num = self.sample_num
             
                 try:
-
-
-
-
                     if self.vision_format == 'video_rawvideo':
                         video_path = os.path.join(self.vision, str(id_))
                         #print(video_path)
@@ -157,8 +153,13 @@ class VisionMapper(object):
                         #    video_path = video_path.replace('.webm','.mkv')
                         #print(id_)
                         # import pdb; pdb.set_trace()
-                        video_path = check_extension(id_,self.vision)
-                        #print(video_path)
+                        # print("before",video_path)
+                        #TODO verify ok for all datasets to subsitute check extension funciton
+                        video_path = video_path + ".mp4"
+                        # video_path = check_extension(id_,self.vision)
+                        
+                        # print("after",video_path)
+                        # print("id",id_)
                            # Open the video using OpenCV
                         cap = cv2.VideoCapture(video_path)
 
@@ -166,7 +167,7 @@ class VisionMapper(object):
                         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
                         if total_frames<sample_num:
                             cap.release()
-                            return None
+                            return None, None
 
                         # Get the FPS of the video
                         fps = cap.get(cv2.CAP_PROP_FPS)
@@ -192,40 +193,57 @@ class VisionMapper(object):
                             cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
                             ret, frame = cap.read()  # Read the frame
                             if ret:
-                                #if frame!=None: 
-                                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
-                                frames.append(frame_rgb)
+                                if frame.all()!=None: 
+                                    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+                                    frames.append(frame_rgb)
                                 
-                            else:
-                                return None
+                            # else:
+                            #     return None #finisce qui
                         
-                        #while len(frames)<sample_num and frames_ids!=[]:
-                        if len(frames)<sample_num:
-                            print(f'problem with {id_}')
-                            return None
-                            #idx = random.choice(frames_ids) 
-                            #frames_ids.remove(idx)
-                            #cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
-                            #ret, frame = cap.read()  # Read the frame
-                            #if ret:
-                            #    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
-                            #    frames.append(frame_rgb)
+                        while len(frames)<sample_num and frames_ids!=[]:
+                        # if len(frames)<sample_num:
+                            # print(f'problem with {id_}')
+                            # return None
+                            idx = random.choice(frames_ids) 
+                            frames_ids.remove(idx)
+                            cap.set(cv2.CAP_PROP_POS_FRAMES, idx)  # Set the video position to the selected frame
+                            ret, frame = cap.read()  # Read the frame
+                            if ret:
+                               frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+                               frames.append(frame_rgb)
 
                         if len(frames)<sample_num:
                             cap.release()
-                            return None
+                            return None, None
                         cap.release()  # Release the video capture object
 
                         # Convert the list of frames to a NumPy array
-                        frames = np.array(frames)
-
+                        frames = np.array(frames) # (8, 480, 848, 3) oppure (8, 1080, 1920, 3) etc.
+                        # import pdb; pdb.set_trace()
+                        # depth_pixels = extract_depth(frames, save_path=video_path)
+                        
+                        
+                        # DEPTH #TODO put something to say depth or not depth
+                        if "MSRVTT" in video_path or "vast" in video_path:
+                            output_dir_video = video_path[:-4] #remove mp4
+                            output_dir_video = output_dir_video.replace("videos","depth")
+                            try:
+                                depth = np.load(f"{output_dir_video}_depth.npy")
+                            except:
+                                print("depth not found", id_)
+                                return None, None
+                            depth_pixels = torch.from_numpy(depth.transpose(0, 3, 1, 2) / 255.0)
+                            depth_pixels = self.transforms(depth_pixels)
+                        else:
+                            depth_pixels = None
+                        # print(depth_pixels.shape)
                         # Normalize and transpose the frames (N x H x W x C -> N x C x H x W)
                         vision_pixels = torch.from_numpy(frames.transpose(0, 3, 1, 2) / 255.0)
-
+                        # pdb.set_trace()
                         # Apply the necessary transforms
                         vision_pixels = self.transforms(vision_pixels)
 
-                        return vision_pixels
+                        return vision_pixels, depth_pixels
 
                     #     container = decord.VideoReader(video_path)     
                     #     frames_ids = list(range(len(container)))
@@ -268,7 +286,8 @@ class VisionMapper(object):
                 except Exception as e:
                     print(e)
                     print(id_)
-                    return None
+
+                    return None, None
 
 
 

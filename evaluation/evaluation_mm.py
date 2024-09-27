@@ -14,7 +14,7 @@ from utils.logger import LOGGER
 from utils.distributed import  all_gather_list, ddp_allgather
 from utils.tool import NoOp
 from easydict import EasyDict as edict
-from utils.area import area_computation,volume_computation4,volume_computation3
+from utils.area import area_computation,volume_computation4,volume_computation3, volume_computation5
 import wandb
 
 
@@ -183,9 +183,10 @@ def evaluate_ret(model, tasks, val_loader, global_step):
     feat_a = []
     feat_v = []
     feat_s = []
+    feat_d = []
 
     for task in subtasks:
-        store_dict[f'feat_cond_{task}'] = []
+        # store_dict[f'feat_cond_{task}'] = []
         store_dict[f'condition_feats_{task}'] = []        
 
     for i, batch in tqdm(enumerate(val_loader), total=len(val_loader)):
@@ -198,6 +199,8 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         feat_v.append(evaluation_dict['feat_v'])
         if 'feat_s' in evaluation_dict.keys():
             feat_s.append(evaluation_dict['feat_s'])
+        if "feat_d" in evaluation_dict.keys():
+            feat_d.append(evaluation_dict['feat_d'])
       
         input_ids.append(evaluation_dict['input_ids'])
         attention_mask.append(evaluation_dict['attention_mask'])
@@ -213,7 +216,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
 
   
         for task in subtasks:
-            store_dict[f'feat_cond_{task}'].append(evaluation_dict[f'feat_cond_{task}'])    
+            # store_dict[f'feat_cond_{task}'].append(evaluation_dict[f'feat_cond_{task}'])    
             store_dict[f'condition_feats_{task}'].append(evaluation_dict[f'condition_feats_{task}'])
 
         
@@ -239,12 +242,18 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         feat_s = torch.cat(feat_s, dim = 0)
         feat_s = ddp_allgather(feat_s)
 
+    if len(feat_d)>0:
+        feat_d = torch.cat(feat_d, dim = 0)
+        feat_d = ddp_allgather(feat_d)
     # torch.save(feat_t,f"./experiments/{global_step}text_features_msrvtt.pt")
     # torch.save(feat_v,f"./experiments/{global_step}video_features_msrvtt.pt")
     # torch.save(feat_a,f"./experiments/{global_step}audio_features_msrvtt.pt")
     #torch.save(feat_s,f"./experiments/{global_step}subtitles_features_msrvtt.pt")
     if len(feat_s)>0:
-        area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
+        if len(feat_d)>0:
+            area = volume_computation5(feat_t,feat_v,feat_a,feat_s,feat_d)
+        else:
+            area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
     else:
         area = volume_computation3(feat_t,feat_v,feat_a)
     log = compute_metric_ret_area(area, ids, ids_txt, direction='forward')
@@ -280,19 +289,19 @@ def evaluate_ret(model, tasks, val_loader, global_step):
     val_log[f'ret_itm_area'] = log
 
     ### compute itc_score
-    for task in subtasks:
-        store_dict[f'feat_cond_{task}'] =  torch.cat(store_dict[f'feat_cond_{task}'], dim = 0)
-        store_dict[f'feat_cond_{task}'] = ddp_allgather(store_dict[f'feat_cond_{task}'])
-        score_matrix_t_cond = torch.matmul(feat_t, store_dict[f'feat_cond_{task}'].permute(1,0))
-        store_dict[f'score_matrix_t_cond_{task}'] = score_matrix_t_cond
-        log = compute_metric_ret(score_matrix_t_cond, ids, ids_txt, direction='forward')
-        log = {k.replace('forward','video'): v for k,v in log.items()}
-        if model.config.ret_bidirection_evaluation:
-            log2 = compute_metric_ret(score_matrix_t_cond, ids, ids_txt, direction='backward')
-            log2 = {k.replace('backward','txt'): v for k,v in log2.items()}
-            log.update(log2)
+    # for task in subtasks:
+    #     store_dict[f'feat_cond_{task}'] =  torch.cat(store_dict[f'feat_cond_{task}'], dim = 0)
+    #     store_dict[f'feat_cond_{task}'] = ddp_allgather(store_dict[f'feat_cond_{task}'])
+    #     score_matrix_t_cond = torch.matmul(feat_t, store_dict[f'feat_cond_{task}'].permute(1,0))
+    #     store_dict[f'score_matrix_t_cond_{task}'] = score_matrix_t_cond
+    #     log = compute_metric_ret(score_matrix_t_cond, ids, ids_txt, direction='forward')
+    #     log = {k.replace('forward','video'): v for k,v in log.items()}
+    #     if model.config.ret_bidirection_evaluation:
+    #         log2 = compute_metric_ret(score_matrix_t_cond, ids, ids_txt, direction='backward')
+    #         log2 = {k.replace('backward','txt'): v for k,v in log2.items()}
+    #         log.update(log2)
 
-        val_log[f'ret_itc_{task}'] = log
+    #     val_log[f'ret_itc_{task}'] = log
 
 
     # #### compute itm_score

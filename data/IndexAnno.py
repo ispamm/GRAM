@@ -44,6 +44,12 @@ class AnnoIndexedDataset(Dataset):
                     self.annos_new.append(key)
                 # if os.path.exists(path):
                 #     self.annos_new.append(key)
+            if self.name == "vatex_ret":
+                path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
+                if os.path.exists(path):
+                    self.annos_new.append(key)
+                # if os.path.exists(path):
+                #     self.annos_new.append(key)
             if self.name == "msrvtt_ret":
                 path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
                 if os.path.exists(path):
@@ -110,9 +116,15 @@ class AnnoIndexedDataset(Dataset):
         vision_cap = None
         audio_cap = None
  
-
-
-      
+        #remove only for depth fast
+        # video_path = os.path.join("/leonardo_work/IscrC_GenOpt/datasets/vast27m/depth/", str(id_))
+        # depth_path = video_path+"_depth.npy"
+        # # import pdb; pdb.set_trace()
+        # if os.path.exists(depth_path):
+        #     # print("esiste")
+        #     return None
+        # else:
+        #     print("non esiste ",depth_path)
         if 'desc' in anno:
             raw_captions = anno['desc']
 
@@ -121,7 +133,7 @@ class AnnoIndexedDataset(Dataset):
 
         elif 'vast_cap' in anno:
             raw_captions = anno['vast_cap'] 
-        #raw_captions= raw_captions[0]
+        raw_captions= raw_captions[0] if isinstance(raw_captions, list) else raw_captions
         num_samples = len(raw_captions) if isinstance(raw_captions, list) else 1
         #print(num_samples)
         id_txt = [id_] * num_samples
@@ -160,13 +172,12 @@ class AnnoIndexedDataset(Dataset):
                 if 'question_id' in anno:
                     question_id = anno['question_id']
                 
-           
         if self.vision_mapper:
             if self.vision_mapper.vision_format == 'video_feats':
                 vision_feats = self.vision_mapper.read(id_)
 
             else:
-                vision_pixels = self.vision_mapper.read(id_)
+                vision_pixels,depth_pixels = self.vision_mapper.read(id_)
                 if vision_pixels is None: ###wrong img/video, resample when training and raise error when testing
                     if self.training: 
                         resample_idx = random.choice(self.idx)
@@ -189,7 +200,7 @@ class AnnoIndexedDataset(Dataset):
                     raise ValueError                
         #print(raw_captions)
         return id_, raw_captions, vision_pixels, id_txt, question, answer, question_id, \
-        audio_spectrograms, raw_subtitles, vision_cap, audio_cap
+        audio_spectrograms, raw_subtitles, vision_cap, audio_cap, depth_pixels
 
 
 
@@ -207,7 +218,9 @@ def annoindexedcollate(inputs):
             'audio_spectrograms',
             'raw_subtitles',
             'vision_captions',
-            'audio_captions']
+            'audio_captions',
+            "depth_pixels"
+            ]
 
     for key, data in zip(keys, all_data):
   

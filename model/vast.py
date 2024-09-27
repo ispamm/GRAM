@@ -12,7 +12,7 @@ from .general_module import TokenMasker, MMGeneralModule, Contra_head, Match_hea
 from utils.distributed import all_gather_with_grad, concat_all_gather, all_gather_list
 from torch.nn import LayerNorm as LayerNorm
 from easydict import EasyDict as edict
-from utils.area import area_computation,volume_computation4,volume_computation3
+from utils.area import area_computation,volume_computation4,volume_computation3, volume_computation5
 
 
 class VAST(MMGeneralModule):
@@ -30,6 +30,7 @@ class VAST(MMGeneralModule):
         self.contra_head_s = Contra_head(self.multimodal_dim, contra_dim)
         self.contra_head_v = Contra_head(self.vision_dim, contra_dim)
         self.contra_head_a = Contra_head(self.audio_dim, contra_dim)
+        self.contra_head_d = Contra_head(self.vision_dim, contra_dim)
         self.contra_head_va = nn.Linear(self.vision_dim + self.audio_dim, contra_dim)
         self.contra_head_vs = nn.Linear(self.vision_dim + self.multimodal_dim, contra_dim)
         self.contra_head_vas = nn.Linear(self.vision_dim + self.audio_dim + self.multimodal_dim, contra_dim)
@@ -179,7 +180,11 @@ class VAST(MMGeneralModule):
         elif key == 'vision_output':
             vision_output = self.forward_vision_encoder(batch.vision_pixels)
             batch[key] = vision_output
-
+            
+        elif key == 'depth_output':
+            depth_output = self.forward_vision_encoder(batch.depth_pixels)
+            batch[key] = depth_output
+        
         elif key == 'audio_output':
             audio_output = self.forward_audio_encoder(batch.audio_spectrograms) 
             batch[key] = audio_output
@@ -189,7 +194,12 @@ class VAST(MMGeneralModule):
             vision_output = self.batch_get(batch, 'vision_output')
             condition_feats_v = self.get_multimodal_forward_input_vision(vision_output)
             batch[key] = condition_feats_v
-
+            
+        elif key == 'condition_feats_d':
+            vision_output = self.batch_get(batch, 'depth_output')
+            condition_feats_d = self.get_multimodal_forward_input_vision(vision_output)
+            batch[key] = condition_feats_d
+            
         elif key == 'condition_feats_a':
             audio_output = self.batch_get(batch, 'audio_output')
             condition_feats_a = self.get_multimodal_forward_input_audio(audio_output)
@@ -218,6 +228,15 @@ class VAST(MMGeneralModule):
             condition_feats_s = self.batch_get(batch, 'condition_feats_s')
             condition_feats_vas = torch.cat((condition_feats_v, condition_feats_a, condition_feats_s),dim=1)
             batch[key] = condition_feats_vas
+            
+        elif key == 'condition_feats_vasd':
+            condition_feats_v = self.batch_get(batch, 'condition_feats_v')
+            condition_feats_a = self.batch_get(batch, 'condition_feats_a')
+            condition_feats_s = self.batch_get(batch, 'condition_feats_s')
+            condition_feats_d = self.batch_get(batch, 'condition_feats_d')
+            condition_feats_vas = torch.cat((condition_feats_v, condition_feats_a, condition_feats_s, condition_feats_d),dim=1)
+            batch[key] = condition_feats_vas
+
 
 
         elif key == 'feat_v':
@@ -226,7 +245,14 @@ class VAST(MMGeneralModule):
             feat_v = self.contra_head_v(vision_output_pooled)
             feat_v = F.normalize(feat_v,dim=-1)
             batch[key] = feat_v
-
+        
+        elif key == 'feat_d':
+            depth_output = self.batch_get(batch, 'depth_output')
+            depth_output_pooled = self.pool_vision_for_contra(depth_output)
+            feat_d = self.contra_head_d(depth_output_pooled) #TODO do we have to use a contra head depth?
+            feat_d = F.normalize(feat_d,dim=-1)
+            batch[key] = feat_d
+        
         elif key == 'feat_a':
             audio_output = self.batch_get(batch, 'audio_output')
             audio_output_pooled = self.pool_audio_for_contra(audio_output)
@@ -279,6 +305,8 @@ class VAST(MMGeneralModule):
             feat_vas = self.contra_head_vas(feat_vas)
             feat_vas = F.normalize(feat_vas,dim=-1)
             batch[key] = feat_vas  
+            
+            
 
         elif key == 'feat_t_omni_caption':
             caption_tokens = self.batch_get(batch, 'omni_caption_tokens')
@@ -403,9 +431,14 @@ class VAST(MMGeneralModule):
             feat_a_all = concat_all_gather(feat_a)
             #Extract subtitles features
             if "raw_subtitles" in batch.keys():
-                feat_s = self.batch_get(batch,'feat_s')
+                feat_s = self.batch_get(batch,'feat_v')
                 feat_s_all = concat_all_gather(feat_s)
-
+            #extract depth features
+            if "depth_pixels" in batch.keys():
+                feat_d = self.batch_get(batch,'feat_d')
+                feat_d_all = concat_all_gather(feat_d)
+            #TODO extract other k features
+            
             caption_tokens = self.batch_get(batch, 'caption_tokens')
             input_ids, attention_mask = caption_tokens.input_ids, caption_tokens.attention_mask
             input_ids_collate = concat_all_gather(input_ids)
@@ -417,15 +450,23 @@ class VAST(MMGeneralModule):
 
             #Volume (Text, batch_all)
             if "raw_subtitles" in batch.keys():
-                volume = volume_computation4(feat_t,feat_v_all,feat_a_all,feat_s_all)
-                volume = volume / self.contra_temp
+                if "depth_pixels" in batch.keys():
+                    volume = volume_computation5(feat_t,feat_v_all,feat_a_all,feat_s_all,feat_d_all)
+                    volume = volume / self.contra_temp
+                else:
+                    volume = volume_computation4(feat_t,feat_v_all,feat_a_all,feat_s_all)
+                    volume = volume / self.contra_temp
             else:
                 volume = volume_computation3(feat_t,feat_v_all,feat_a_all)
                 volume = volume / self.contra_temp
             #AreaT (Video,batch_all)
             if "raw_subtitles" in batch.keys():
-                volumeT = volume_computation4(feat_t_all,feat_v,feat_a,feat_s).T
-                volumeT = volumeT / self.contra_temp
+                if "depth_pixels" in batch.keys():
+                    volumeT = volume_computation5(feat_t_all,feat_v,feat_a,feat_s,feat_d).T
+                    volumeT = volumeT / self.contra_temp
+                else:
+                    volumeT = volume_computation4(feat_t_all,feat_v,feat_a,feat_s).T
+                    volumeT = volumeT / self.contra_temp
             else:
                 volumeT = volume_computation3(feat_t_all,feat_v,feat_a).T
                 volumeT = volumeT / self.contra_temp
@@ -553,7 +594,7 @@ class VAST(MMGeneralModule):
                 # ground_truth = torch.zeros(batch_size*3).long().cuda()
                 # ground_truth[:batch_size] = 1
                 # loss = F.cross_entropy(logits,ground_truth)
-                loss_itm.append(torch.tensor(0))#*(self.itm_ratio * loss))
+                #loss_itm.append(torch.tensor(0))#*(self.itm_ratio * loss))
 
             loss_itc = sum(loss_itc)/len(loss_itc)
             loss_dict['loss_itc'] = loss_itc          
@@ -576,6 +617,9 @@ class VAST(MMGeneralModule):
             if "raw_subtitles" in batch.keys(): 
                 feat_s = self.batch_get(batch,'feat_s')
                 evaluation_dict['feat_s'] = feat_s
+            if "depth_pixels" in batch.keys():
+                feat_d = self.batch_get(batch,'feat_d')
+                evaluation_dict['feat_d'] = feat_d
             
 
             caption_tokens = self.batch_get(batch,'caption_tokens')
@@ -583,9 +627,9 @@ class VAST(MMGeneralModule):
             evaluation_dict['attention_mask'] = caption_tokens.attention_mask
             for task in subtasks:
                 #### compute_itc
-                assert task in ['tv','ta','tva','tvs','tvas']
-                feat_cond = self.batch_get(batch,f'feat_{task[1:]}')
-                evaluation_dict[f'feat_cond_{task}'] = feat_cond
+                assert task in ['tv','ta','tva','tvs','tvas','tvasd']
+                # feat_cond = self.batch_get(batch,f'feat_{task[1:]}')
+                # evaluation_dict[f'feat_cond_{task}'] = feat_cond
 
                 condition_feats = self.batch_get(batch, f'condition_feats_{task[1:]}')
                 evaluation_dict[f'condition_feats_{task}'] = condition_feats
