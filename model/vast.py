@@ -451,7 +451,7 @@ class VAST(MMGeneralModule):
             #Volume (Text, batch_all)
             if "raw_subtitles" in batch.keys():
                 if "depth_pixels" in batch.keys():
-                    volume = volume_computation5(feat_t,feat_v_all,feat_a_all,feat_d_all,feat_s_all,feat_d_all)
+                    volume = volume_computation5(feat_t,feat_v_all,feat_a_all,feat_s_all,feat_d_all)
                     volume = volume / self.contra_temp
                 else:
                     volume = volume_computation4(feat_t,feat_v_all,feat_a_all,feat_s_all)
@@ -462,7 +462,7 @@ class VAST(MMGeneralModule):
             #AreaT (Video,batch_all)
             if "raw_subtitles" in batch.keys():
                 if "depth_pixels" in batch.keys():
-                    volumeT = volume_computation5(feat_t_all,feat_v,feat_a,feat_d,feat_s,feat_d).T
+                    volumeT = volume_computation5(feat_t_all,feat_v,feat_a,feat_s,feat_d).T
                     volumeT = volumeT / self.contra_temp
                 else:
                     volumeT = volume_computation4(feat_t_all,feat_v,feat_a,feat_s).T
