@@ -86,7 +86,7 @@ make a dir named datasets under the main work dir.
 
 The processed  datasets path should be as follows:
 ```
-    ├── output
+    ├── datasets
     │   ├── annotations
     │   │   ├── msrvtt
     │   │   ├── ...
