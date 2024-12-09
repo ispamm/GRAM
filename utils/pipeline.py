@@ -179,8 +179,10 @@ def get_best_name(eval_name, metric):
     elif eval_name.startswith('ret'):
         if 'video_r1' in metric:
             return 'video_r1'
-        if 'area_video_r1' in metric:
-            return 'area_video_r1'
+        if 'volume_T2D_r1' in metric:
+            return 'volume_T2D_r1'
+        if 'gramian_value' in metric:
+            return 'gramian_value'
     elif eval_name.startswith('pt'):
         return None 
     else:

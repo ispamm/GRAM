@@ -224,7 +224,7 @@ class VisionMapper(object):
                         
                         
                         # DEPTH #TODO put something to say depth or not depth
-                        if "MSRVTT" in video_path or "vast" in video_path:
+                        if "MSRVTT_TODO" in video_path or "vast_TODO" in video_path:
                             output_dir_video = video_path[:-4] #remove mp4
                             output_dir_video = output_dir_video.replace("videos","depth")
                             try:

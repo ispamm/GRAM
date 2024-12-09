@@ -25,11 +25,11 @@ def main():
         # start a new wandb run to track this script
         wandb.init(
         # set the wandb project where this run will be logged
-        project ="FinetuningVast",
+        project ="Training_scratch_msrvtt",
 
         # track hyperparameters and run metadata
         config={
-        "desc":"Finetuning MSRVTT prima prova",
+        "desc":f"Train_NOITM_{args.data_cfg.train[0]['name']}",
         "batch-size-train": args.data_cfg.train[0]['batch_size'],
         "batch-size-val": args.data_cfg.val[0]['batch_size'],
         "ngpus":4,
@@ -37,7 +37,8 @@ def main():
         "dataset": args.data_cfg.train[0]['name'],
         "epochs": args.data_cfg.train[0]['epoch'],
         "name": args.run_cfg.mode+"_finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + str(args.data_cfg.val[0]['vision_sample_num']),  
-
+        "val_frame": str(args.data_cfg.val[0]['vision_sample_num']),
+        "train_frame": str(args.data_cfg.train[0]['vision_sample_num']),
         }
         )
 

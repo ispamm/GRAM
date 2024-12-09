@@ -475,8 +475,8 @@ class VAST(MMGeneralModule):
             targets = torch.linspace(rank * bs, rank * bs + bs - 1, bs, dtype=int).to(volume.device)
 
             loss = (
-                    F.cross_entropy(-volume, targets, label_smoothing=0.1)
-                    + F.cross_entropy(-volumeT, targets, label_smoothing=0.1)
+                    F.cross_entropy(-volume, targets, label_smoothing=0.1) #d2a
+                    + F.cross_entropy(-volumeT, targets, label_smoothing=0.1) #a2d
             ) / 2
 
             loss_area.append(loss)
@@ -521,22 +521,13 @@ class VAST(MMGeneralModule):
             logits = self.itm_head(output[:,0].half())
             ground_truth = torch.zeros(batch_size*3).long().cuda()
             ground_truth[:batch_size] = 1
-            loss = F.cross_entropy(logits,ground_truth)
+            loss = F.cross_entropy(logits,ground_truth) #itm (dtm)
             loss_itm.append(self.itm_ratio * loss)
 
             
 
             for task in subtasks:
-                # if task == 'tv':
-                #     #feat_t = self.batch_get(batch,'feat_t_vision_caption')
-                #     #caption_tokens = self.batch_get(batch, 'vision_caption_tokens')
-                #     feat_cond = feat_v
-                #     feat_cond_all =feat_v_all
-                # elif task == 'ta':
-                #     #feat_t = self.batch_get(batch,'feat_t_audio_caption')
-                #     #caption_tokens = self.batch_get(batch, 'audio_caption_tokens')
-                #     feat_cond = feat_a
-                #     feat_cond_all =feat_a_all
+
 
                 # #### compute_itc
                 # assert task in ['tv','ta','tva','tvs','tvas']
