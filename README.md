@@ -1,8 +1,3 @@
-
-
-
-
-
 # Gramian Multimodal Representation Learning and Alignment
 
 <div align=center><img src=img/gram_method-compresso-1.png/ width="75%" height="75%"></div>
@@ -51,22 +46,21 @@ The processed  pretrained_weights path should be as follows:
     │   │   └── EVA01_CLIP_g_14_psz14_s11B.pt
 ```
 
-## Download  VAST models as a starting point of the pretraining stage  
+## Download  GRAM models as a starting point of the pretraining stage  
 
 make a dir named output under the main work dir.
 
-1.download vast model (optional, for finetuning)
+1.download gram model (optional, for finetuning)
 
-[[Google Drive Link](https://drive.google.com/file/d/1ZkeZpis2Fggy4MyTFPqQj37MgPZxdJ53/view?usp=sharing)]
-[[Baidu Cloud Link](https://pan.baidu.com/s/18EYFsPGlqU1JdK_OIjLuow?pwd=v70h)]
+[[Google Drive Link]()]
 
 )]
 
 The processed  output path should be as follows:
 ```
     ├── output
-    │   ├── vast
-    │   │   ├── pretrain_vast
+    │   ├── gram
+    │   │   ├── pretrain_gram
 
 ```
 
@@ -77,11 +71,11 @@ The processed  output path should be as follows:
 
 Raw videos could be downloaded from YouTube.
 
-## Download  downstream datasets annotations for finetuning
+<!-- ## Download  downstream datasets annotations for finetuning
 make a dir named datasets under the main work dir.
 
 [[Google Drive Link](https://drive.google.com/file/d/1bOLUbbnPTgUp_Nc0PgORKC-174CwgwPm/view?usp=sharing)]
-[[Baidu Cloud Link](https://pan.baidu.com/s/1sMeX7LBSSI-ODOmq5opsag?pwd=wxht)]
+[[Baidu Cloud Link](https://pan.baidu.com/s/1sMeX7LBSSI-ODOmq5opsag?pwd=wxht)] -->
 
 
 The processed  datasets path should be as follows:
@@ -100,17 +94,17 @@ srcdata (images/videos/audios) should be collected by yourself.
 
 ## Finetune  Model on the 150k subset of VAST27M
 Download annotations150k.json file subset from data available in openreview submission.
-Reference it in scripts/vast/finetune_ret.sh and in config/vast/finetune_cfg/finetune-area.json
+Reference it in scripts/gram/finetune_ret.sh and in config/gram/finetune_cfg/finetune-area.json
 ```
-sh scripts/vast/finetune_ret.sh
+sh scripts/gram/finetune_ret.sh
 ```
 
 
 ## Finetune  Model on downstream datasets
-Change configuration internally at scripts/vast/finetune_ret.sh and then run
+Change configuration internally at scripts/gram/finetune_ret.sh and then run
 
 ```
-sh scripts/vast/finetune_ret.sh
+sh scripts/gram/finetune_ret.sh
 ```
 
 
@@ -130,7 +124,7 @@ python3 -m torch.distributed.launch \
 --checkpointing true \
 --first_eval true \
 --save_best true \
---config ./config/vast/finetune_cfg/retrieval-msrvtt.json \
+--config ./config/gram/finetune_cfg/retrieval-msrvtt.json \
 --pretrain_dir $output_dir \
 --output_dir $output_dir/downstream/retrieval-msrvtt \
 ```

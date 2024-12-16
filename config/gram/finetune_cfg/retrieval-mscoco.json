@@ -1,0 +1,40 @@
+{ "run_cfg":
+    {"default":"./config/gram/default_run_cfg.json"},
+    
+    "model_cfg":
+      {"default":"./config/gram/default_model_cfg.json"},
+  
+      
+    "data_cfg":         
+    {"train":  
+    [{  "type":"annoindexed",
+        "training":true,
+        "name": "mscoco_ret",
+        "txt": "datasets/annotations/mscoco/descs_cap_train.json",
+        "vision": "datasets/srcdata/mscoco/images",
+        "vision_format": "image_rawimage",
+        "task": "'ret%tv",
+        "epoch": 5,
+        "n_workers": 8,
+        "batch_size": 256}],
+  
+    "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "mscoco_ret",
+        "txt": "datasets/annotations/mscoco/descs_cap_test.json",
+        "vision": "datasets/srcdata/mscoco/images",
+        "vision_format": "image_rawimage",
+        "task": "'ret%tv",
+        "n_workers": 8,
+        "batch_size": 128
+    }]}}
+  
+  
+  
+  
+  
+  
+  
+  

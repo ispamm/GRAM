@@ -46,6 +46,7 @@ class AnnoIndexedDataset(Dataset):
                 #     self.annos_new.append(key)
             if self.name == "vatex_ret":
                 path = os.path.join(d_cfg['audio'],f"{key['video_id']}.mp3")
+                print(path, "AAA")
                 if os.path.exists(path):
                     self.annos_new.append(key)
                 # if os.path.exists(path):

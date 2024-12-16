@@ -1,4 +1,4 @@
-from .vast import VAST
+from .gram import GRAM
 model_registry = {
-                    'vast':VAST
+                    'gram':GRAM
                     }

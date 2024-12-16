@@ -1,0 +1,38 @@
+{"run_cfg":
+  {"default":"./config/gram/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/gram/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+ 
+      {"train":  
+      [{  "type":"annoindexed",
+          "training":true,
+          "name": "audiocaps_ret",
+          "txt": "datasets/annotations/audiocaps/descs_ret_trainval.json",
+          "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/audiocaps/audios",
+          "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/audiocaps/videos",
+          "audio_sample_num": 1,
+          "vision_format": "video_rawvideo",
+          "vision_sample_num": 8,    
+          "task" : "ret%tva",
+          "epoch": 10,
+          "n_workers":8,
+          "batch_size": 64}],
+      "val":                
+      [{
+          "type":"annoindexed",
+          "training":false,
+          "name": "audiocaps_ret",
+          "txt": "datasets/annotations/audiocaps/descs_ret_test.json",
+          "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/audiocaps/audios",
+          "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/audiocaps/videos",
+          "audio_sample_num": 1,
+          "vision_format": "video_rawvideo",
+          "vision_sample_num": 8,    
+          "task" : "ret%tva",
+          "n_workers": 8,
+          "batch_size": 64 
+      }]}}

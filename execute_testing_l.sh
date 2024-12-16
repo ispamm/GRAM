@@ -13,15 +13,15 @@ echo "NODELIST="${SLURM_NODELIST}
 cd /leonardo_scratch/fast/IscrC_NeuroGen/luigi/GRAM
 export WANDB_MODE=offline
 module load anaconda3
-source activate vast
+source activate gram
 
-# config_name='pretrain_vast'
-# output_dir=./output/vast/$config_name
+# config_name='pretrain_gram'
+# output_dir=./output/gram/$config_name
 
 ### VIDEO-RET
 
 #retrieval-youcook
 srun python3 -m torch.distributed.launch  ./run.py \
---config ./config/vast/finetune_cfg/retrieval-youcook.json \
+--config ./config/gram/finetune_cfg/retrieval-youcook.json \
 --pretrain_dir /leonardo_scratch/fast/IscrC_NeuroGen/luigi/GRAM/downstream/finetune_youcook/ \
 --mode testing

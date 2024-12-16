@@ -96,7 +96,7 @@ def create_val_dataloaders(args):
 
         # dataset.data_type = data_type
         dataset.name = name
-        LOGGER.info("Create Dataset {} Success".format(name))
+        LOGGER.info("Create Dataset {} Success. Len {}".format(name, len(dataset)))
         task = d_cfg['task']
         batch_size = d_cfg['batch_size']
         n_workers = d_cfg['n_workers'] 

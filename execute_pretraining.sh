@@ -13,10 +13,10 @@ echo "NODELIST="${SLURM_NODELIST}
 cd /leonardo_scratch/fast/IscrC_NeuroGen/luigi/GRAM
 export WANDB_MODE=offline
 module load anaconda3
-source activate vast
+source activate gram
 
-# config_name='pretrain_vast'
-# output_dir=./output/vast/$config_name
+# config_name='pretrain_gram'
+# output_dir=./output/gram/$config_name
 
 ### VIDEO-RET
 
@@ -26,7 +26,7 @@ srun python3 -m torch.distributed.launch \
 --nproc_per_node 4 \
 --master_port 9834 \
 ./run.py \
---config ./config/vast/pretrain_cfg/pretrain_activity.json \
+--config ./config/gram/pretrain_cfg/pretrain_activity.json \
 --output_dir ./downstream/pretrain_activity \
 --checkpointing true \
 --first_eval true \

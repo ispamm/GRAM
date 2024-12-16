@@ -33,7 +33,7 @@ def main():
         "batch-size-train": args.data_cfg.train[0]['batch_size'],
         "batch-size-val": args.data_cfg.val[0]['batch_size'],
         "ngpus":4,
-        "architecture": "VAST",
+        "architecture": "GRAM",
         "dataset": args.data_cfg.train[0]['name'],
         "epochs": args.data_cfg.train[0]['epoch'],
         "name": args.run_cfg.mode+"_finetuning_" + args.data_cfg.train[0]['name'] + "_valFrame=" + str(args.data_cfg.val[0]['vision_sample_num']),  
@@ -48,6 +48,8 @@ def main():
         ### create datasets and dataloader
         train_loader = create_train_dataloaders(args)
         val_loaders = create_val_dataloaders(args)
+        for name, loader in val_loaders.items():
+            print(f"val_loader: {name} has {len(loader)} batches")
 
         ### build model and optimizer
 

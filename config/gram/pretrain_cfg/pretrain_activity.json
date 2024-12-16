@@ -1,0 +1,43 @@
+{ "run_cfg":
+  {"default":"./config/gram/default_run_cfg.json",
+  "learning_rate": 5e-05
+  },
+  
+  
+  "model_cfg":
+  { "default":"./config/gram/default_model_cfg.json",
+    "vision_encoder_type":"evaclip01_giant"
+
+},
+    "data_cfg":{"train":
+
+            [{"type":"annoindexed",
+            "training":true,
+            "name": "activitynet_ret",
+            "txt": "datasets/annotations/activitynet/descs_ret_train.json",
+            "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/activityNet/videos",
+            "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/activityNet/audios",
+            "datatype": "video_rawvideo",
+            "vision_format": "video_rawvideo",
+            "vision_sample_num": 8,
+            "audio_sample_num": 1,
+            "task" : "ret%tv%ta",
+            "epoch": 20,
+            "n_workers":8,
+            "batch_size": 64 
+        }],
+        "val":                
+        [{
+            "type":"annoindexed",
+            "training":false,
+            "name": "activitynet_ret",
+            "txt": "datasets/annotations/activitynet/descs_ret_test.json",
+            "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/activityNet/videos",
+            "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/activityNet/audios",
+            "vision_format": "video_rawvideo",
+            "vision_sample_num": 8, 
+            "audio_sample_num": 1,   
+            "task" : "ret%tv%ta%tva",
+            "n_workers": 8,
+            "batch_size": 64 
+        }]}}

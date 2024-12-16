@@ -1,0 +1,47 @@
+{"run_cfg":
+  {"default":"./config/gram/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/gram/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+    {"train":  
+    [{  "type":"annoindexed",
+        "training":true,
+        "name": "valor32k_cap",
+        "txt": "datasets/annotations/valor32k/descs_cap_train.json",
+        "vision": "datasets/srcdata/valor32k/videos",
+        "vision_format": "video_rawvideo",
+        "audio": "datasets/srcdata/valor32k/audios",
+        "vision_sample_num": 8,
+        "audio_sample_num": 1,
+        "task" : "ret%tva",
+        "epoch": 30,
+        "n_workers":8,
+        "batch_size": 64}],
+    "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "valor32k_cap",
+        "txt": "datasets/annotations/valor32k/descs_cap_train.json",
+        "vision": "datasets/srcdata/valor32k/videos",  
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 8,
+        "audio_sample_num": 1,
+        "audio": "datasets/srcdata/valor32k/audios",
+        "task" : "ret%tva",
+        "n_workers": 8,
+        "batch_size": 64 
+    }]}}
+
+
+
+
+
+                        
+
+
+
+

@@ -199,7 +199,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         feat_v.append(evaluation_dict['feat_v'])
         if 'feat_s' in evaluation_dict.keys():
             feat_s.append(evaluation_dict['feat_s'])
-        if "feat_d" in evaluation_dict.keys():
+        if 'feat_d' in evaluation_dict.keys():
             feat_d.append(evaluation_dict['feat_d'])
       
         input_ids.append(evaluation_dict['input_ids'])
@@ -223,7 +223,6 @@ def evaluate_ret(model, tasks, val_loader, global_step):
             
     ids = [j for i in all_gather_list(ids) for j in i]
     ids_txt = [j for i in all_gather_list(ids_txt) for j in i]
-
     input_ids = torch.cat([i for i in input_ids],dim=0)
     input_ids = ddp_allgather(input_ids)
     attention_mask = torch.cat([i for i in attention_mask],dim=0)

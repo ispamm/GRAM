@@ -1,0 +1,47 @@
+{"run_cfg":
+  {"default":"./config/gram/default_run_cfg.json"},
+  
+ "model_cfg":
+  {"default":"./config/gram/default_model_cfg.json"},
+
+  "data_cfg":         
+  
+    {"train":  
+    [{  "type":"annoindexed",
+        "training":true,
+        "name": "youcook_ret",
+        "txt": "datasets/annotations/youcook/descs_cap_train.json",
+        "vision_format": "video_rawvideo",
+        "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/youcook2/videos_train",
+        "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/youcook2/audios_train",
+        "vision_sample_num": 8,
+        "audio_sample_num": 1,
+        "task" : "ret%tvas",
+        "epoch": 30,
+        "n_workers":8,
+        "batch_size": 64}],
+    "val":                
+    [{
+        "type":"annoindexed",
+        "training":false,
+        "name": "youcook_ret",
+        "txt": "datasets/annotations/youcook/descs_cap_test.json",
+        "vision_format": "video_rawvideo",
+        "vision_sample_num": 8,
+        "audio_sample_num": 1,
+        "vision": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/youcook2/videos_validation",
+        "audio": "/leonardo_scratch/fast/IscrC_NeuroGen/dataset/youcook2/audios_validation",
+        "task" : "ret%tvas",
+        "n_workers": 8,
+        "batch_size": 64 
+    }]}}
+
+
+
+
+
+                        
+
+
+
+

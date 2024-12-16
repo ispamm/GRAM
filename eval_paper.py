@@ -3,27 +3,6 @@ import numpy as np
 from tqdm.auto import tqdm
 #import matplotlib.pyplot as plt
 
-
-
-
-# ***********************************************************************************
-# *                                                                          
-#  *********  ******   *******        *        *     *    *****    *       ******    
-#     ***     *     *     *          * *       **    *   *     *   *       *        
-#     ***     *     *     *         *   *      * *   *  *          *       *         
-#     ***     ******      *        *******     *  *  *  *          *       ******    
-#     ***     *  *        *       *       *    *   * *  *   ****   *       *        
-#     ***     *   *       *      *         *   *    **  *     *    *       *        
-#     ***     *    *      *     *           *  *     *   *     *   *       *    
-#     ***     *     *  ******* *             * *     *    *****    ******  ******
-    
-# *                                                                                 *
-# *                                                                                 *
-# *                                                                                 *
-# *                       Achieving State-of-the-Art                                *
-# *                 in Zero-Shot Video and Audio Retrieval                          *
-# *         #A TRIANGLE Enables Multimodal Alignment Beyond Cosine Similarity                                                                  *
-# ***********************************************************************************
 def area_computation(language, video, audio):
 
 
