@@ -2,11 +2,6 @@
 
 <div align=center><img src=img/gram_method-compresso-1.png/ width="75%" height="75%"></div>
 
-
-
-
-
-
 ## Building Environment
 GRAM is implemented based on Pytorch. We use Python-3.9 and Cuda-11.7. Other version could be also compatible. Other needed packages are listed in preinstall.sh.
 
@@ -19,14 +14,14 @@ sh preinstall.sh
 ## Download basic encoder's pretrained checkpoints
 make a dir named pretrained_weights under the main work dir.
 
-1.download evaclip weight:
+1. Download evaclip weight:
 ```
 wget -P pretrained_weights/clip/ https://huggingface.co/QuanSun/EVA-CLIP/resolve/main/EVA01_CLIP_g_14_psz14_s11B.pt
 ```
-2.download beats weight from https://github.com/microsoft/unilm/tree/master/beats
+2. Download beats weight from https://github.com/microsoft/unilm/tree/master/beats
 
-3.download bert weight:
-```
+3. Download bert weight:
+```python
 from transformers import BertModel, BertTokenizer
 bert = BertModel.from_pretrained('bert-base-uncased')
 bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -46,15 +41,13 @@ The processed  pretrained_weights path should be as follows:
     │   │   └── EVA01_CLIP_g_14_psz14_s11B.pt
 ```
 
-## Download  GRAM models as a starting point of the pretraining stage  
+## Download  GRAM model as a starting point of the pretraining stage  
 
 make a dir named output under the main work dir.
 
 1.download gram model (optional, for finetuning)
 
-[[Google Drive Link]()]
-
-)]
+[VAST27-M]()
 
 The processed  output path should be as follows:
 ```
@@ -63,6 +56,27 @@ The processed  output path should be as follows:
     │   │   ├── pretrain_gram
 
 ```
+
+## Download GRAM models finetuned
+make a dir named output under the main work dir.
+
+[MSRVTT]()
+
+[VATEX]()
+
+[Activity Net]()
+
+[??]()
+
+
+The processed  output path should be as follows:
+```
+    ├── output
+    │   ├── gram
+    │   │   ├── msrvtt
+
+```
+
 
 ## Download  VAST-27M annotations for pretraining
 
@@ -135,10 +149,24 @@ if you want to test model, just add following two rows to the cmd:
 --checkpoint /PATH/TO/SAVED_CHECKPOINT.pt
 ```
 
+## Citation
 
+If you find this code useful for your research, please consider citing the following paper:
 
+```
+@inproceedings{
+anonymous2024gramian,
+title={Gramian Multimodal Representation Learning and Alignment},
+author={Giordano Cicchetti and Eleonora Grassucci and Luigi Sigillo and Danilo Comminiello},
+booktitle={Submitted to The Thirteenth International Conference on Learning Representations},
+year={2024},
+url={https://openreview.net/forum?id=ftGnpZrW7P},
+note={under review}
+}
+```
 
 ## Statement of common controllable items in cmd which can overwrite config files.
+```bash
 --train_vision_sample_num
 
 --test_vision_sample_num
@@ -168,11 +196,8 @@ if you want to test model, just add following two rows to the cmd:
 --valid_freq
 
 --beam_size
-
-
-
+```
 
 ## Third-Party Licenses
 
 For the full list of third-party licenses used in this project, please see the [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) file.
-

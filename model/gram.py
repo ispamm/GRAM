@@ -12,7 +12,7 @@ from .general_module import TokenMasker, MMGeneralModule, Contra_head, Match_hea
 from utils.distributed import all_gather_with_grad, concat_all_gather, all_gather_list
 from torch.nn import LayerNorm as LayerNorm
 from easydict import EasyDict as edict
-from utils.area import area_computation,volume_computation4,volume_computation3, volume_computation5
+from utils.volume import volume_computation4,volume_computation3, volume_computation5
 
 
 class GRAM(MMGeneralModule):

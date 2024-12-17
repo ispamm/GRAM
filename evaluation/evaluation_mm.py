@@ -14,7 +14,7 @@ from utils.logger import LOGGER
 from utils.distributed import  all_gather_list, ddp_allgather
 from utils.tool import NoOp
 from easydict import EasyDict as edict
-from utils.area import area_computation,volume_computation4,volume_computation3, volume_computation5
+from utils.volume import volume_computation4,volume_computation3, volume_computation5
 import wandb
 
 
@@ -252,7 +252,7 @@ def evaluate_ret(model, tasks, val_loader, global_step):
         if len(feat_d)>0:
             area = volume_computation5(feat_t,feat_v,feat_a,feat_s,feat_d)
         else:
-            area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #area_computation(feat_t,feat_v,feat_a)
+            area = volume_computation4(feat_t,feat_v,feat_a,feat_s) #(feat_t,feat_v,feat_a)
     else:
         area = volume_computation3(feat_t,feat_v,feat_a)
         

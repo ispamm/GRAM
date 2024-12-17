@@ -1,57 +1,6 @@
 import torch
 import numpy as np
 
-def area_computation(language, video, audio):
-
-
-    #print(f"norm language= {torch.sum(language ** 2, dim=1)}")
-    
-    language_expanded = language.unsqueeze(1)  # Shape: (n, 1, dim)
-
-    # Compute the differences for all pairs (i-th language embedding with all j-th video/audio embeddings)
-    u = language_expanded - video.unsqueeze(0)  # Shape: (n, n, dim)
-    v = language_expanded - audio.unsqueeze(0)  # Shape: (n, n, dim)
-
-    # Compute the norms for u and v
-    u_norm = torch.sum(u ** 2, dim=2)  # Shape: (n, n)
-    v_norm = torch.sum(v ** 2, dim=2)  # Shape: (n, n)
-
-    # Compute the dot products for all pairs
-    uv_dot = torch.sum(u * v, dim=2)  # Shape: (n, n)
-
-    # Calculate the area for all pairs. I remove sqrt calculation
-    area = ((u_norm * v_norm) - (uv_dot ** 2))/2#torch.sqrt((u_norm * v_norm) - (uv_dot ** 2)) / 2  # Shape: (n, n)
-    
-    return area
-'''
-
-def area_computation(language, video, audio):
-    res = []
-    for i in range(language.shape[0]):
-        l=[]
-    
-        for j in range(language.shape[0]):
-            u = language[i] - video[j]
-            u_norm = torch.tensor(u@ u.T)
-
-            v = language[i] - audio[j]
-            v_norm = torch.tensor(v@ v.T)
-
-            uv_dot = u@v.T
-            area = torch.sqrt( (u_norm * v_norm) - (uv_dot * uv_dot)) / 2
-            #print(area)
-            l.append(area.item())
-        
-        
-        res.append(l)
-        
-    print(res[0][0])
-    res = np.array(res)
-    res = torch.from_numpy(res).to("cuda")
-    return res
-
-
-'''
 
 def volume_computation3(language, video, audio):
 
