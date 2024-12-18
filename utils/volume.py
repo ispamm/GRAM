@@ -1,6 +1,15 @@
 import torch
 import numpy as np
 
+# * * * *  * * * *  * * * *   *       *   
+# *        *     *  *     *   * *   * *   
+# *   * *  * * *    * * * *   *   *   *   
+# *     *  *     *  *     *   *       *   
+# * * * *  *     *  *     *   *       *   
+
+# THIS IS THE CORE PY CODE OF GRAM FRAMEWORK
+
+
 
 def volume_computation3(language, video, audio):
 
@@ -118,7 +127,7 @@ def volume_computation5(language, video, audio, subtitles, depth):
     - video (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing video features.
     - audio (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing audio features.
     - subtitles (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing subtitle features.
-    
+    - depth (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing depth features.    
     Returns:
     - torch.Tensor: Tensor of shape (batch_size1, batch_size2) representing the volume for each pair.
     """

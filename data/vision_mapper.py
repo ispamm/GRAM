@@ -156,7 +156,7 @@ class VisionMapper(object):
                         # print("before",video_path)
                         #TODO verify ok for all datasets to subsitute check extension funciton
                         video_path = video_path + ".mp4"
-                        # video_path = check_extension(id_,self.vision)
+                        video_path = check_extension(id_,self.vision)
                         
                         # print("after",video_path)
                         # print("id",id_)
