@@ -11,14 +11,20 @@
      
  
 [![arXiv](https://img.shields.io/badge/Arxiv-2412.11959-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2412.11959)
-
-
+[![OpenReview Discussion](https://img.shields.io/badge/OpenReview-Discussion-B762C1)](https://openreview.net/forum?id=ftGnpZrW7P)
 
 [![License](https://img.shields.io/badge/Code%20License-MIT-yellow)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE)
-
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FGiordano-Cicchetti%2FGRAM&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Giordano-Cicchetti/GRAM)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/Giordano-Cicchetti/GRAM)
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/video-retrieval-on-msr-vtt?p=gramian-multimodal-representation-learning)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/zero-shot-video-retrieval-on-vatex)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-vatex?p=gramian-multimodal-representation-learning)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/video-retrieval-on-vatex)](https://paperswithcode.com/sota/video-retrieval-on-vatex?p=gramian-multimodal-representation-learning)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/zero-shot-video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-msr-vtt?p=gramian-multimodal-representation-learning)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/zero-shot-audio-retrieval-on-audiocaps)](https://paperswithcode.com/sota/zero-shot-audio-retrieval-on-audiocaps?p=gramian-multimodal-representation-learning)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/zero-shot-video-retrieval-on-activitynet)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-activitynet?p=gramian-multimodal-representation-learning)
+
  <br>
 
 </h5>
@@ -187,54 +193,22 @@ if you want to test model, just add following two rows to the cmd:
 If you find this code useful for your research, please consider citing the following paper:
 
 ```
-@inproceedings{
-anonymous2024gramian,
-title={Gramian Multimodal Representation Learning and Alignment},
-author={Giordano Cicchetti and Eleonora Grassucci and Luigi Sigillo and Danilo Comminiello},
-booktitle={Submitted to The Thirteenth International Conference on Learning Representations},
-year={2024},
-url={https://openreview.net/forum?id=ftGnpZrW7P},
-note={under review}
+@misc{cicchetti2024gramianmultimodalrepresentationlearning,
+      title={Gramian Multimodal Representation Learning and Alignment}, 
+      author={Giordano Cicchetti and Eleonora Grassucci and Luigi Sigillo and Danilo Comminiello},
+      year={2024},
+      eprint={2412.11959},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2412.11959}, 
 }
 ```
-
-## Statement of common controllable items in cmd which can overwrite config files.
-```bash
---train_vision_sample_num
-
---test_vision_sample_num
-
---train_audio_sample_num
-
---test_audio_sample_num
-
---train_task
-
---test_task
-
---learning_rate
-
---train_batch_size
-
---test_batch_size
-
---train_epoch 
-
---train_steps
-
---checkpointing
-
---frozen_vision
-
---valid_freq
-
---beam_size
-```
-
-## Third-Party Licenses
-
-For the full list of third-party licenses used in this project, please see the [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) file.
 
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Giordano-Cicchetti/GRAM&type=Date)](https://star-history.com/#Giordano-Cicchetti/GRAM&Date)
+
+
+## Third-Party Licenses
+
+For the full list of third-party licenses used in this project, please see the [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) file.
