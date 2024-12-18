@@ -29,3 +29,8 @@ This project includes code from the following open-source projects, each of whic
    - Authors: Microsoft
    - License: MIT License
 
+## 7. VAST
+   - Authors: Sihan Chen , Handong Li , Qunbo Wang , Zijia Zhao , Mingzhen Sun , Xinxin Zhu , Jing Liu
+   - License: MIT License
+   - Link to repo: https://github.com/TXH-mercury/VAST
+
