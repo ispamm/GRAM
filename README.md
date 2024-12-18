@@ -15,8 +15,8 @@
 
 [![License](https://img.shields.io/badge/Code%20License-MIT-yellow)](https://github.com/PKU-YuanGroup/LanguageBind/blob/main/LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FGiordano-Cicchetti%2FGRAM&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Giordano-Cicchetti/GRAM)
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/Giordano-Cicchetti/GRAM)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/ispamm/GRAM)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/ispamm/GRAM)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/video-retrieval-on-msr-vtt)](https://paperswithcode.com/sota/video-retrieval-on-msr-vtt?p=gramian-multimodal-representation-learning)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/gramian-multimodal-representation-learning/zero-shot-video-retrieval-on-vatex)](https://paperswithcode.com/sota/zero-shot-video-retrieval-on-vatex?p=gramian-multimodal-representation-learning)
