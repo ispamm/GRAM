@@ -206,7 +206,7 @@ If you find this code useful for your research, please consider citing the follo
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Giordano-Cicchetti/GRAM&type=Date)](https://star-history.com/#Giordano-Cicchetti/GRAM&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ispamm/GRAM&type=Date)](https://star-history.com/#ispamm/GRAM&Date)
 
 
 ## Third-Party Licenses
