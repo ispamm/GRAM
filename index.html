@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Gramian Multimodal Representation Learning and Alignment">
+  <meta name="keywords" content="GRAM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GRAM: Gramian Multimodal Representation Learning and Alignment</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/ISPAMM-solologo.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
+</head>
+<style>
+/* Style for the container holding video, audio, or text */
+.media-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Radio button container */
+.radio-container {
+  margin-bottom: 1rem;
+}
+
+/* Radio button styling */
+.fancy-radio {
+  display: none; /* Hide the default radio input */
+}
+
+.fancy-radio + label {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: #f1f1f1; /* Light gray background for unselected */
+  color: #333; /* Dark text */
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.fancy-radio + label:hover {
+  background-color: #e0e0e0; /* Slightly darker gray */
+  border-color: #bbb;
+}
+
+/* Selected radio styling */
+.fancy-radio:checked + label {
+  background-color: #0056b3; /* Blue background for selected */
+  color: white; /* White text */
+  border-color: #003d80; /* Darker border for contrast */
+  box-shadow: 0 4px 15px rgba(0, 85, 179, 0.6); /* Add glow effect */
+  transform: scale(1.05); /* Slightly enlarge */
+}
+
+</style>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://sites.google.com/uniroma1.it/ispamm/">
+            ISPAMM LAB
+          </a>
+          <!-- <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container ">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Gramian Multimodal Representation Learning and Alignment</h1>
+          <div class="is-size-4 publication-authors">
+            <span class="author-block">
+              <a href="https://giordano-cicchetti.github.io/"> Giordano Cicchetti<sup>*</sup> </a>,</span>
+            <span class="author-block">
+              <a href="https://sites.google.com/uniroma1.it/eleonoragrassucci/home-page">Eleonora Grassucci<sup>*</sup> </a>,</span>
+            <span class="author-block">
+              <a href="https://luigisigillo.github.io/">Luigi Sigillo </a>,
+            </span>
+            <span class="author-block">
+              <a href="https://sites.google.com/uniroma1.it/danilocomminiello/home">Danilo Comminiello</a>.
+            </span>
+
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Sapienza, University of Rome.</span>
+            <br>
+            <span class="author-block"><sup>*</sup>These authors contributed equally to this work</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/pdf/2011.12948" -->
+                  <a href="https://openreview.net/forum?id=ftGnpZrW7P"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="CI METTEREI IL LINK ALLA PAGINA ARXIV"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+                <!-- Video Link. -->
+                <!--
+                <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                  <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+                </span>
+                -->
+              <!-- Code Link. -->
+               
+              <span class="link-block">
+                <a href="DOBBIAMO METTERE LINK ALL REPO"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- Qui potremmo mettere il link a modelli e dati vari -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section></section>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths"> <!--is-half-->
+      <figure class="image is-16by16">
+        <img src="./static/images/gram_method.png" alt="Sample Image">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!--
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+-->
+
+
+
+
+
+
+<!-- <div class="columns is-centered">
+  <div class="column is-full-width"> -->
+
+<!-- ABSTRACT SECTION-->
+<section class="section">
+  <div class="container ">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop">Abstract</h2>
+        <div class="content has-text-justified is-size-4-desktop">
+          <!-- Human perception integrates multiple modalities — such as vision, hearing, 
+          and language — into a unified understanding of the surrounding reality. 
+          <p></p> -->
+          While recent multimodal models have achieved significant progress by aligning pairs of modalities 
+          via contrastive learning, their solutions are unsuitable when scaling to multiple modalities. 
+          These models typically align each modality to a designated anchor without ensuring the alignment of all modalities 
+          with each other, leading to suboptimal performance in tasks requiring a joint understanding of multiple modalities. 
+          <p></p>
+          In this paper, we structurally rethink the pairwise conventional approach to multimodal learning and we present 
+          the novel Gramian Representation Alignment Measure (<b>GRAM</b>), which overcomes the above-mentioned limitations. 
+          <b>GRAM</b> learns and then aligns modalities directly in the higher-dimensional space in which modality embeddings lie by
+          <i>minimizing the Gramian volume of the k-dimensional parallelotope spanned by the modality vectors</i>, ensuring the
+          geometric alignment of all modalities simultaneously. 
+          <p></p>
+          <b>GRAM</b> can replace cosine similarity in any downstream method, holding for 2 to 
+          modality and providing more meaningful alignment with respect to previous similarity measures. Moreover,
+          the novel <b>GRAM</b>-based contrastive loss function enhances the alignment of multimodal models in the higher-dimensional embedding space, leading to new state-of-the-art performance in downstream tasks such as video-audio-text retrieval and audio-video classification.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+    <!--/ Abstract. -->
+<!--
+    
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+-->
+<section class="section">
+  <div class="container">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop">How to compute the volume of a k-dimensional parallelotope?</h2>
+        
+        <div class="content has-text-justified is-size-4-desktop" >
+          The idea is super simple. The volume of a k-dimensional parallelotope that starts from the origin and is delimited by k vectors 
+          each one of dimension n can be computed by computing the square root of the determinant of the
+          Gram Matrix generated by those vectors.
+          <p></p>
+          In our context the vectors are the latent representations extracted by different encoders, one for each modality.
+          If we want to compute the volume of the k-dimensional parallelotope spanned by those modalities as edges we can arrange 
+          the embeddings in a tensor A = [v<sub>1</sub>,v<sub>2</sub>,v<sub>3</sub>,...,v<sub>k</sub>]; 
+          Then we compute the Gram Matrix G = A<sup>T</sup>A;
+          We compute the determinant of this matrix and finally the volume is represented by the square root of the determinant.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <figure class="image is-16by16">
+        <img src="./static/videos/gif.gif" alt="Sample Image">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container ">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop">How to perform retrieval?</h2>
+        <div class="content has-text-justified is-size-4-desktop">
+          <b>Multimodal Text-to-Video retrieval</b> is the task of assign the right textual caption to a set of videos, where videos are intend as set of frames plus audio plus whatever relevant information.
+          This task is useful to directly understand how "well-shaped" is the learned latent space (i.e. to understand if there is alignment among all the modalities in the latent space).
+          <p></p>
+          To solve this task using <b>GRAM</b> we compute the volume of the k-dimensional parallelotope formed by the latent representation of a fixed textual description and all the latent representations of the videos.
+          we assign the text description to the video with which the parallelepiped with the smallest volume is formed.
+          <p></p>
+          The <b>key concept</b> is the following one: the bigger the volume the more the modalities are semantically dissimilar each others, the lower the volume the lower the modalities are semantically dissimilar each others.
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <figure class="image is-16by16">
+        <img src="./static/images/small_large_volume.png" alt="Sample Image">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop">Examples of real world data and gramian values</h2>
+        <div class="content has-text-justified">
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+  <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-dogbarking">
+          <div class="columns is-centered has-text-centered">
+            
+            <iframe width="315" height="560" src="https://youtube.com/embed/0NA1Gpn5P_A" title="Embedded YouTube Shorts Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; muted" allowfullscreen></iframe>
+
+          </div>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video1.mp3"
+                    type="audio/mp3">
+          </audio>
+          
+          <h3 class="title is-4" style="text-align:center">"A dog is Barking"</h2>
+          <h2 class="title is-3"style="text-align:center">Gramian Value:0.67</h3>
+          <p></p>
+          
+        </div>
+        <div class="item item-doghowling">
+          <div class="columns is-centered has-text-centered">
+            
+            <iframe width="315" height="560" src="https://youtube.com/embed/KP6oPbCKgu4" title="Embedded YouTube Shorts Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; muted" allowfullscreen></iframe>
+
+          </div>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video1.mp3"
+                    type="audio/mp3">
+          </audio>
+          
+          <h3 class="title is-4" style="text-align:center">"A dog is Howling"</h2>
+          <h2 class="title is-3"style="text-align:center">Gramian Value:0.65</h3>
+          <p></p>
+          
+          
+        </div>
+        <div class="item item-blackcat">
+          <div class="columns is-centered has-text-centered">
+            
+            <iframe width="315" height="560" src="https://youtube.com/embed/gNzuqxId7to" title="Embedded YouTube Shorts Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; muted" allowfullscreen></iframe>
+
+          </div>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video1.mp3"
+                    type="audio/mp3">
+          </audio>
+          
+          <h3 class="title is-4" style="text-align:center">"A black cat is meowing"</h2>
+          <h2 class="title is-3"style="text-align:center">Gramian Value:0.70</h3>
+          <p></p>
+          
+        </div>
+        <div class="item item-redcat">
+          <div class="columns is-centered has-text-centered">
+            
+            <iframe width="315" height="560" src="https://youtube.com/embed/pQF8v0xS6Qs" title="Embedded YouTube Shorts Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; muted" allowfullscreen></iframe>
+
+          </div>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video1.mp3"
+                    type="audio/mp3">
+          </audio>
+          
+          <h3 class="title is-4" style="text-align:center">"A red cat is meowing"</h2>
+          <h2 class="title is-3"style="text-align:center">Gramian Value:0.70</h3>
+          <p></p>
+          
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  </section>
+</div>
+</section> -->
+
+<!-- Vecchio carosello con video non da youtube
+<section class="section">
+  <div class="container is-max-desktop">
+
+  <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-steve">
+          <video poster="" id="steve"  controls muted loop playsinline height="100%">
+            <source src="./static/videos/video1.mp4"
+                    type="video/mp4">
+          </video>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video1.mp3"
+                    type="audio/mp3">
+          </audio>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp"  controls muted loop playsinline height="100%">
+            <source src="./static/videos/video2.mp4"
+                    type="video/mp4">
+          </video>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video2.mp3"
+                    type="audio/mp3">
+          </audio>
+
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba"  controls muted loop playsinline height="100%">
+            <source src="./static/videos/video3.mp4"
+                    type="video/mp4">
+          </video>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video3.mp3"
+                    type="audio/mp3">
+          </audio>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody"  controls muted loop playsinline height="100%">
+            <source src="./static/videos/video4.mp4"
+                    type="video/mp4">
+          </video>
+          <audio id="steve-audio" controls>
+            <source src="./static/audios/video4.mp3"
+                    type="audio/mp3">
+          </audio>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  </section>
+
+-->
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3 is-size-2-desktop">Play with the combinations and see how gramian value change!</h2>
+          </div>
+        </div>
+        <div class="content has-text-justified is-size-4-desktop">
+          Select a text description, a video, and an audio below. The corresponding Gramian value will be displayed based on your selection.
+        </div>
+
+        <div class="columns is-vcentered interpolation-panel">
+          <!-- Text, Video, and Audio Items -->
+          <div class="item">
+            
+            <!-- Text -->
+            <div class="media-container">
+              
+              <div class="radio-container">
+                <input type="radio" name="text" id="text1" value="text1" class="fancy-radio">
+                <label for="text1">Select this Text</label>
+              </div>
+              <span><h2 class="is-size-4-desktop">A dog is barking</h2></span>
+            </div>
+
+            <!-- Video -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="video" id="video1" value="video1" class="fancy-radio">
+                <label for="video1">Select this Video</label>
+              </div>
+              <video controls muted loop playsinline height="100%">
+                <source src="./static/videos/video1.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <!-- Audio -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="audio" id="audio1" value="audio1" class="fancy-radio">
+                <label for="audio1">Select this Audio</label>
+              </div>
+              <audio controls>
+                <source src="./static/audios/video1.mp3" type="audio/mp3">
+              </audio>
+            </div>
+          </div>
+
+          <div class="item">
+            <!-- Text -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="text" id="text2" value="text2" class="fancy-radio">
+                <label for="text2">Select this Text</label>
+              </div>
+              <span><h2 class="is-size-4-desktop">A dog is howling</h2></span>
+            </div>
+
+            <!-- Video -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="video" id="video2" value="video2" class="fancy-radio">
+                <label for="video2">Select this Video</label>
+              </div>
+              <video controls muted loop playsinline height="100%">
+                <source src="./static/videos/video2.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <!-- Audio -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="audio" id="audio2" value="audio2" class="fancy-radio">
+                <label for="audio2">Select this Audio</label>
+              </div>
+              <audio controls>
+                <source src="./static/audios/video2.mp3" type="audio/mp3">
+              </audio>
+            </div>
+          </div>
+
+          <div class="item">
+            <!-- Text -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="text" id="text3" value="text3" class="fancy-radio">
+                <label for="text3">Select this Text</label>
+              </div>
+              <span><h2 class="is-size-4-desktop">A red cat is meowing</h2></span>
+            </div>
+
+            <!-- Video -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="video" id="video3" value="video3" class="fancy-radio">
+                <label for="video3">Select this Video</label>
+              </div>
+              <video controls muted loop playsinline height="100%">
+                <source src="./static/videos/video3.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <!-- Audio -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="audio" id="audio3" value="audio3" class="fancy-radio">
+                <label for="audio3">Select this Audio</label>
+              </div>
+              <audio controls>
+                <source src="./static/audios/video3.mp3" type="audio/mp3">
+              </audio>
+            </div>
+          </div>
+
+          <div class="item">
+            <!-- Text -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="text" id="text4" value="text4" class="fancy-radio">
+                <label for="text4">Select this Text</label>
+              </div>
+              <span><h2 class="is-size-4-desktop">A black cat is meowing</h2></span>
+            </div>
+
+            <!-- Video -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="video" id="video4" value="video4" class="fancy-radio">
+                <label for="video4">Select this Video</label>
+              </div>
+              <video controls muted loop playsinline height="100%">
+                <source src="./static/videos/video4.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <!-- Audio -->
+            <div class="media-container">
+              <div class="radio-container">
+                <input type="radio" name="audio" id="audio4" value="audio4" class="fancy-radio">
+                <label for="audio4">Select this Audio</label>
+              </div>
+              <audio controls>
+                <source src="./static/audios/video4.mp3" type="audio/mp3">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Gramian Value -->
+        <div id="result" class="content has-text-centered">
+          <h3 class="title is-3">Normalized Gramian Value: <span id="gramian-value">Select options above</span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section class="section">
+  <div class="container">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop"> Comparison with a cosine similarity based approach</h2>
+        
+        <div class="content has-text-justified is-size-4-desktop" >
+          The results from the previous interactive experiment are summarized in the following confusion matrix.
+          As shown, frameworks that rely solely on two modalities (text-visual or text-audio in this example) often fail to assign the correct label to the appropriate video.
+          <b>GRAM</b>, on the other hand, effectively leverages multiple modalities to produce a more accurate retrieval result by integrating information from all available modalities.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <figure class="image is-16by16">
+        <img src="./static/images/confusion_matrix.png" alt="Sample Image">
+      </figure>
+    </div>
+  </div>
+</section>
+
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 is-size-2-desktop"> Experimental evidences</h2>
+        
+        <div class="content has-text-justified is-size-4-desktop" >
+          In this Section, we present the main results of the proposed GRAM contrastive loss and model in downstream tasks. 
+          We test our developed approach on different datasets and tasks. GRAM set new state-of-the-art results in almost all the datasets,
+          highlighting the alignment power of the proposed method. .
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <figure class="image is-16by16">
+        <img src="./static/images/results.png" alt="Sample Image">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{cicchetti2024gram,
+  author    = {Cicchetti, Giordano and Grassucci, Eleonora and Sigillo, Luigi and Comminiello, Danilo},
+  title     = {Gramian Multimodal Representation Learning and Alignment},
+  journal   = {arXiv},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+
+      <a class="icon-link" href="https://github.com/nerfies/nerfies.github.io" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+<script>
+  // Map of Gramian values for combinations of video, audio, and text
+
+  const gramianValues = {
+    video1_audio1_text1: '0.230 Well Aligned! &#9989;',
+    video1_audio1_text2: 0.414,
+    video1_audio1_text3: 0.972,
+    video1_audio1_text4: 0.947,
+    video1_audio2_text1: 0.250,
+    video1_audio2_text2: 0.314,
+    video1_audio2_text3: 1.000,
+    video1_audio2_text4: 0.991,
+    video1_audio3_text1: 0.329,
+    video1_audio3_text2: 0.515,
+    video1_audio3_text3: 0.687,
+    video1_audio3_text4: 0.583,
+    video1_audio4_text1: 0.309,
+    video1_audio4_text2: 0.473,
+    video1_audio4_text3: 0.698,
+    video1_audio4_text4: 0.573,
+    video2_audio1_text1: 0.219,
+    video2_audio1_text2: 0.331,
+    video2_audio1_text3: 0.968,
+    video2_audio1_text4: 0.851,
+    video2_audio2_text1: 0.237,
+    video2_audio2_text2: '0.265 Well Aligned! &#9989;',
+    video2_audio2_text3: 0.987,
+    video2_audio2_text4: 0.885,
+    video2_audio3_text1: 0.322,
+    video2_audio3_text2: 0.435,
+    video2_audio3_text3: 0.731,
+    video2_audio3_text4: 0.511,
+    video2_audio4_text1: 0.353,
+    video2_audio4_text2: 0.443,
+    video2_audio4_text3: 0.778,
+    video2_audio4_text4: 0.553,
+    video3_audio1_text1: 0.578,
+    video3_audio1_text2: 0.692,
+    video3_audio1_text3: 0.534,
+    video3_audio1_text4: 0.625,
+    video3_audio2_text1: 0.587,
+    video3_audio2_text2: 0.605,
+    video3_audio2_text3: 0.555,
+    video3_audio2_text4: 0.667,
+    video3_audio3_text1: 0.787,
+    video3_audio3_text2: 0.871,
+    video3_audio3_text3: '0.363 Well Aligned! &#9989;',
+    video3_audio3_text4: 0.396,
+    video3_audio4_text1: 0.769,
+    video3_audio4_text2: 0.839,
+    video3_audio4_text3: 0.364,
+    video3_audio4_text4: 0.380,
+    video4_audio1_text1: 0.574,
+    video4_audio1_text2: 0.705,
+    video4_audio1_text3: 0.626,
+    video4_audio1_text4: 0.221,
+    video4_audio2_text1: 0.575,
+    video4_audio2_text2: 0.610,
+    video4_audio2_text3: 0.643,
+    video4_audio2_text4: 0.260,
+    video4_audio3_text1: 0.827,
+    video4_audio3_text2: 0.929,
+    video4_audio3_text3: 0.453,
+    video4_audio3_text4: '0.001 Well Aligned! &#9989;',
+    video4_audio4_text1: 0.800,
+    video4_audio4_text2: 0.885,
+    video4_audio4_text3: 0.460,
+    video4_audio4_text4: '0.003 Well Aligned! &#9989;',
+  }
+  // const gramianValues = {
+  //   video1_audio1_text1: '0.818 Well Aligned! &#9989;' ,
+  //   video1_audio1_text2: 0.860,
+  //   video1_audio1_text3: 0.959,
+  //   video1_audio1_text4: 0.954,
+  //   video1_audio2_text1: 0.826,
+  //   video1_audio2_text2: 0.843,
+  //   video1_audio2_text3: 0.964,
+  //   video1_audio2_text4: 0.962,
+  //   video1_audio3_text1: 0.845,
+  //   video1_audio3_text2: 0.878,
+  //   video1_audio3_text3: 0.908,
+  //   video1_audio3_text4: 0.890,
+  //   video1_audio4_text1: 0.842,
+  //   video1_audio4_text2: 0.871,
+  //   video1_audio4_text3: 0.910,
+  //   video1_audio4_text4: 0.888,
+  //   video2_audio1_text1: 0.826,
+  //   video2_audio1_text2: 0.846,
+  //   video2_audio1_text3: 0.958,
+  //   video2_audio1_text4: 0.937,
+  //   video2_audio2_text1: 0.829,
+  //   video2_audio2_text2: '0.834 Well Aligned! &#9989;',
+  //   video2_audio2_text3: 0.961,
+  //   video2_audio2_text4: 0.943,
+  //   video2_audio3_text1: 0.844,
+  //   video2_audio3_text2: 0.864,
+  //   video2_audio3_text3: 0.916,
+  //   video2_audio3_text4: 0.877,
+  //   video2_audio4_text1: 0.849,
+  //   video2_audio4_text2: 0.865,
+  //   video2_audio4_text3: 0.924,
+  //   video2_audio4_text4: 0.885,
+  //   video3_audio1_text1: 0.889,
+  //   video3_audio1_text2: 0.909,
+  //   video3_audio1_text3: 0.881,
+  //   video3_audio1_text4: 0.898,
+  //   video3_audio2_text1: 0.891,
+  //   video3_audio2_text2: 0.894,
+  //   video3_audio2_text3: 0.885,
+  //   video3_audio2_text4: 0.905,
+  //   video3_audio3_text1: 0.926,
+  //   video3_audio3_text2: 0.941,
+  //   video3_audio3_text3: '0.851 Well Aligned! &#9989;',
+  //   video3_audio3_text4: 0.857,
+  //   video3_audio4_text1: 0.923,
+  //   video3_audio4_text2: 0.935,
+  //   video3_audio4_text3: 0.851,
+  //   video3_audio4_text4: 0.854,
+  //   video4_audio1_text1: 0.889,
+  //   video4_audio1_text2: 0.912,
+  //   video4_audio1_text3: 0.898,
+  //   video4_audio1_text4: 0.826,
+  //   video4_audio2_text1: 0.889,
+  //   video4_audio2_text2: 0.895,
+  //   video4_audio2_text3: 0.901,
+  //   video4_audio2_text4: 0.833,
+  //   video4_audio3_text1: 0.933,
+  //   video4_audio3_text2: 0.951,
+  //   video4_audio3_text3: 0.867,
+  //   video4_audio3_text4: 0.788,
+  //   video4_audio4_text1: 0.928,
+  //   video4_audio4_text2: 0.943,
+  //   video4_audio4_text3: 0.868,
+  //   video4_audio4_text4: '0.788 Well Aligned! &#9989;',
+
+  // };
+
+  // Function to calculate and display the Gramian value
+  function updateGramianValue() {
+    const selectedVideo = document.querySelector('input[name="video"]:checked')?.value;
+    const selectedAudio = document.querySelector('input[name="audio"]:checked')?.value;
+    const selectedText = document.querySelector('input[name="text"]:checked')?.value;
+
+    const key = `${selectedVideo}_${selectedAudio}_${selectedText}`;
+    const value = gramianValues[key] || "Invalid combination";
+
+    document.getElementById("gramian-value").innerHTML = value;
+    
+
+  }
+
+  // Add event listeners to inputs
+  document.querySelectorAll('input[name="video"]').forEach((input) =>
+    input.addEventListener("change", updateGramianValue)
+  );
+  document.querySelectorAll('input[name="audio"]').forEach((input) =>
+    input.addEventListener("change", updateGramianValue)
+  );
+  document.querySelectorAll('input[name="text"]').forEach((input) =>
+    input.addEventListener("change", updateGramianValue)
+  );
+</script>
+
+</body>
+</html>
+
+
+
+
+<!--
+
+    <div class="columns is-centered">
+
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Visual Effects</h2>
+          <p>
+            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
+            would be impossible without nerfies since it would require going through a wall.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video1.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video2.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video3.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/video4.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2 class="title is-3">Matting</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              As a byproduct of our method, we can also solve the matting problem by ignoring
+              samples that fall outside of a bounding box during rendering.
+            </p>
+            <audio id="matting-audio" controls>
+              <source src="./static/audios/video1.mp3"
+                      type="audio/mp3">
+            </audio>
+            <audio id="matting-audio" controls>
+              <source src="./static/audios/video2.mp3"
+                      type="audio/mp3">
+            </audio>
+            <audio id="matting-audio" controls>
+              <source src="./static/audios/video3.mp3"
+                      type="audio/mp3">
+            </audio>
+            <audio id="matting-audio" controls>
+              <source src="./static/audios/video4.mp3"
+                      type="audio/mp3">
+            </audio>
+
+
+            </video>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+-->
