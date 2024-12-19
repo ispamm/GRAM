@@ -598,8 +598,13 @@
         <div class="content has-text-justified is-size-4-desktop">
           Select a text description, a video, and an audio below. The corresponding Gramian value will be displayed based on your selection.
         </div>
+        <!-- Display Gramian Value -->
+        <div id="result" class="content has-text-centered">
+          <h3 class="title is-3">Normalized Gramian Value: <span id="gramian-value">Select options above</span></h3>
+        </div>
 
         <div class="columns is-vcentered interpolation-panel">
+          
           <!-- Text, Video, and Audio Items -->
           <div class="item">
             
@@ -607,7 +612,7 @@
             <div class="media-container">
               
               <div class="radio-container">
-                <input type="radio" name="text" id="text1" value="text1" class="fancy-radio">
+                <input type="radio" name="text" id="text1" value="text1" class="fancy-radio" checked="checked">
                 <label for="text1">Select this Text</label>
               </div>
               <span><h2 class="is-size-4-desktop">A dog is barking</h2></span>
@@ -616,7 +621,7 @@
             <!-- Video -->
             <div class="media-container">
               <div class="radio-container">
-                <input type="radio" name="video" id="video1" value="video1" class="fancy-radio">
+                <input type="radio" name="video" id="video1" value="video1" class="fancy-radio" checked="checked">
                 <label for="video1">Select this Video</label>
               </div>
               <video controls muted loop playsinline height="100%">
@@ -627,7 +632,7 @@
             <!-- Audio -->
             <div class="media-container">
               <div class="radio-container">
-                <input type="radio" name="audio" id="audio1" value="audio1" class="fancy-radio">
+                <input type="radio" name="audio" id="audio1" value="audio1" class="fancy-radio" checked="checked">
                 <label for="audio1">Select this Audio</label>
               </div>
               <audio controls>
@@ -736,10 +741,7 @@
           </div>
         </div>
 
-        <!-- Display Gramian Value -->
-        <div id="result" class="content has-text-centered">
-          <h3 class="title is-3">Normalized Gramian Value: <span id="gramian-value">Select options above</span></h3>
-        </div>
+        
       </div>
     </div>
   </div>
@@ -1003,6 +1005,9 @@
     
 
   }
+  document.addEventListener("DOMContentLoaded", function() {
+    updateGramianValue();
+  });
 
   // Add event listeners to inputs
   document.querySelectorAll('input[name="video"]').forEach((input) =>
