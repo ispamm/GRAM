@@ -1,4 +1,4 @@
-<h2 align="center"> <a href="https://openreview.net/forum?id=ftGnpZrW7P">Gramian Multimodal Representation Learning and Alignment</a></h2>
+<h2 align="center"> <a href="https://openreview.net/forum?id=ftGnpZrW7P">[ICLR 2025] Gramian Multimodal Representation Learning and Alignment</a></h2>
 
 <h3 align="center"><a href="https://ispamm.github.io/GRAM/"> Project page here 🚀</a></h3>
 
@@ -30,7 +30,7 @@
 </h5>
 
 ## 📰 News
-
+* **[2025.01.22]** 🔥🔥🔥 Paper got accepted at ICLR 2025!! See you in Singapore!
 * **[2024.12.18]** 🔥🔥🔥 The checkpoints are available [here](https://drive.google.com/drive/folders/15CGPSut2Bgcsuce1Fjaozfts0f9QK1Ya?usp=sharing)!
 * **[2024.12.18]**  Code is available now! Welcome to **watch** 👀 this repository for the latest updates.
 * **[2024.12.17]**  The paper has been published on Arxiv 🎉. The pdf version is available [here](https://arxiv.org/pdf/2412.11959)! 
