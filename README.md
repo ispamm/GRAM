@@ -244,6 +244,56 @@ An example of paths after the download could be as follow:
 
 ```
 
+## Inference for Multi-modal Binding
+
+We have provided some sample datasets in [assets](https://github.com/ispamm/GRAM/tree/main/assets) to quickly see how languagebind works.
+
+```python
+from utils.utils_for_fast_inference import get_args, VisionMapper, AudioMapper, build_batch
+from utils.build_model import build_model
+from utils.volume import volume_computation3
+import warnings
+import os
+warnings.filterwarnings("ignore") 
+
+
+os.environ['LOCAL_RANK'] = '0'
+
+#Pass the path to the pre-trained model folder
+pretrain_dir = './gram_ckpt'
+
+args = get_args(pretrain_dir)
+
+model,_,_ = build_model(args)
+model.to('cuda')
+
+visionMapper = VisionMapper(args.data_cfg.train[0],args)
+audioMapper = AudioMapper(args.data_cfg.train[0],args)
+
+
+
+tasks = 'ret%tva'
+
+
+text = ["A dog is barking","A dog is howling", "A red cat is meowing", "A black cat is meowing"]
+video = ["./assets/videos/video1.mp4","./assets/videos/video2.mp4","assets/videos/video3.mp4","./assets/videos/video4.mp4"]
+audio = ["./assets/audios/audio1.mp3","./assets/audios/audio2.mp3","./assets/audios/audio3.mp3","./assets/audios/audio4.mp3"]
+
+batch = build_batch(args,text,video,audio)
+
+
+evaluation_dict= model(batch, tasks, compute_loss=False)
+
+feat_t = evaluation_dict['feat_t']
+feat_v = evaluation_dict['feat_v']
+feat_a = evaluation_dict['feat_a']
+
+
+
+volume = volume_computation3(feat_t,feat_v,feat_a)
+
+print("Volume: ", volume.detach().cpu())
+```
 
 ## Download  VAST-27M annotations for pretraining
 

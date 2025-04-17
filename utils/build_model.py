@@ -22,6 +22,7 @@ def build_model(args):
     checkpoint = {}
     
     ### load ckpt from a pretrained_dir
+    print("args.run_cfg.pretrain_dir", args.run_cfg.pretrain_dir)
     if args.run_cfg.pretrain_dir:
         checkpoint = load_from_pretrained_dir(args)
         LOGGER.info("Load from pretrained dir {}".format(args.run_cfg.pretrain_dir))
