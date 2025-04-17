@@ -349,11 +349,12 @@ if you want to test model, just add following two rows to the cmd:
 If you find this code useful for your research, please consider citing the following paper:
 
 ```
-@inproceedings{cicchetti2024gramianmultimodalrepresentationlearning,
-      title={Gramian Multimodal Representation Learning and Alignment}, 
-      author={Giordano Cicchetti and Eleonora Grassucci and Luigi Sigillo and Danilo Comminiello},
-      year={2025},
-      booktitle={International Conference on Learning Representations (ICLR)}
+@inproceedings{cicchetti2025gramian,
+title={Gramian Multimodal Representation Learning and Alignment},
+author={Giordano Cicchetti and Eleonora Grassucci and Luigi Sigillo and Danilo Comminiello},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=ftGnpZrW7P}
 }
 ```
 
