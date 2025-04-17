@@ -180,7 +180,8 @@ def volume_computation5(language, video, audio, subtitles, depth):
 
 def volume_computation(language, *inputs):
     """
-    Compute the volume for each pair of inputs with the language tensor.
+    General function to compute volume for contrastive learning loss functions.
+    Compute the volume metric for each vector in language batch and all the other modalities listed in *inputs.
 
     Args:
     - language (torch.Tensor): Tensor of shape (batch_size1, dim)
