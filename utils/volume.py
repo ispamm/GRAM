@@ -15,14 +15,13 @@ def volume_computation3(language, video, audio):
 
     """
     Computes the volume for each pair of samples between language (shape [batch_size1, feature_dim])
-    and video, audio, subtitles (shape [batch_size2, feature_dim]) using the determinant of a 4x4
+    and video, audio, subtitles (shape [batch_size2, feature_dim]) using the determinant of a 3x3
     Gram matrix.
     
     Parameters:
     - language (torch.Tensor): Tensor of shape (batch_size1, feature_dim) representing language features.
     - video (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing video features.
     - audio (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing audio features.
-    - subtitles (torch.Tensor): Tensor of shape (batch_size2, feature_dim) representing subtitle features.
     
     Returns:
     - torch.Tensor: Tensor of shape (batch_size1, batch_size2) representing the volume for each pair.
@@ -34,7 +33,7 @@ def volume_computation3(language, video, audio):
     # Compute pairwise dot products for language with itself (shape: [batch_size1, 1])
     ll = torch.einsum('bi,bi->b', language, language).unsqueeze(1).expand(-1, batch_size2)
 
-    # Compute pairwise dot products for language with video, audio, and subtitles (shape: [batch_size1, batch_size2])
+    # Compute pairwise dot products for language with video, audio (shape: [batch_size1, batch_size2])
     lv = language@video.T
     la = language@audio.T
 
@@ -45,7 +44,7 @@ def volume_computation3(language, video, audio):
     
 
 
-    # Stack the results to form the Gram matrix for each pair (shape: [batch_size1, batch_size2, 4, 4])
+    # Stack the results to form the Gram matrix for each pair (shape: [batch_size1, batch_size2, 3, 3])
     G = torch.stack([
         torch.stack([ll, lv, la], dim=-1),  # First row of the Gram matrix
         torch.stack([lv, vv, va], dim=-1),  # Second row of the Gram matrix
@@ -119,7 +118,7 @@ def volume_computation5(language, video, audio, subtitles, depth):
 
     """
     Computes the volume for each pair of samples between language (shape [batch_size1, feature_dim])
-    and video, audio, subtitles (shape [batch_size2, feature_dim]) using the determinant of a 4x4
+    and video, audio, subtitles (shape [batch_size2, feature_dim]) using the determinant of a 5x5
     Gram matrix.
     
     Parameters:
@@ -160,7 +159,7 @@ def volume_computation5(language, video, audio, subtitles, depth):
     ds = torch.einsum('bi,bi->b', depth, subtitles).unsqueeze(0).expand(batch_size1, -1)
 
 
-    # Stack the results to form the Gram matrix for each pair (shape: [batch_size1, batch_size2, 4, 4])
+    # Stack the results to form the Gram matrix for each pair (shape: [batch_size1, batch_size2, 5, 5])
     G = torch.stack([
         torch.stack([ll, lv, la, ls, ld], dim=-1),  # First row of the Gram matrix
         torch.stack([lv, vv, va, vs, dv], dim=-1),  # Second row of the Gram matrix
