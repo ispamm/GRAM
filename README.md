@@ -30,6 +30,7 @@
 </h5>
 
 ## 📰 News
+* **[2025.04.17]** Takeaway functions available
 * **[2025.01.22]** 🔥🔥🔥 Paper got accepted at ICLR 2025!! See you in Singapore!
 * **[2024.12.18]** 🔥🔥🔥 The checkpoints are available [here](https://drive.google.com/drive/folders/15CGPSut2Bgcsuce1Fjaozfts0f9QK1Ya?usp=sharing)!
 * **[2024.12.18]**  Code is available now! Welcome to **watch** 👀 this repository for the latest updates.
@@ -45,7 +46,7 @@ GRAM can replace cosine similarity in any downstream method, holding for 2 to mo
 
 
 
-### 👀 Multimodal alignement unlock new and fancy downstream task
+### 👀 Multimodal alignment unlock new and fancy downstream task
 
 An aligned shared latent space among n modalities is a strong baseline for whatever downstream task that rely on embedding extraction. The results obtained from this paper will lead to superior performance in existing downstream tasks (T2I, T2V, V2A, etc.) but also unlock fancy tasks such as for example image to audio generation or image generation conditioned on text and audio.
 
@@ -53,6 +54,111 @@ An aligned shared latent space among n modalities is a strong baseline for whate
 
 <div align=center><img src=assets/results.png width="75%" height="75%"></div>
 
+### ✨ Takeaway functions 
+
+`simple_volume_computation`
+
+This function computes the volume of the k-dimensional parallelotope formed by three vectors—one from each modality—using their Gram matrix determinant:
+
+```python
+def simple_volume_computation(language, video, audio):
+    A = torch.stack([language, video, audio])
+    G = A @ A.T
+    gramian = torch.linalg.det(G)
+    return torch.sqrt(gramian)
+```
+
+* A: Stacks the three modality vectors.
+
+* G: Constructs the Gram matrix from dot products.
+
+* det(G): Gives the squared volume of the parallelepiped formed by the vectors.
+
+* sqrt(det(G)): Returns the actual volume.
+
+This simple geometric operation scales to batches and more complex setups in the full GRAM function below.
+
+`volume_computation`
+
+
+```python
+def volume_computation(anchor, *inputs):
+    """
+    General function to compute volume for contrastive learning loss functions.
+    Compute the volume metric for each vector in anchor batch and all the other modalities listed in *inputs.
+
+    Args:
+    - anchor (torch.Tensor): Tensor of shape (batch_size1, dim)
+    - *inputs (torch.Tensor): Variable number of tensors of shape (batch_size2, dim)
+
+    Returns:
+    - torch.Tensor: Tensor of shape (batch_size1, batch_size2) representing the volume for each pair.
+    """
+    batch_size1 = anchor.shape[0]
+    batch_size2 = inputs[0].shape[0]
+
+    # Compute pairwise dot products for language with itself
+    aa = torch.einsum('bi,bi->b', anchor, anchor).unsqueeze(1).expand(-1, batch_size2)
+
+    # Compute pairwise dot products for language with each input
+    l_inputs = [anchor @ input.T for input in inputs]
+
+    # Compute pairwise dot products for each input with themselves and with each other
+    input_dot_products = []
+    for i, input1 in enumerate(inputs):
+        row = []
+        for j, input2 in enumerate(inputs):
+            dot_product = torch.einsum('bi,bi->b', input1, input2).unsqueeze(0).expand(batch_size1, -1)
+            row.append(dot_product)
+        input_dot_products.append(row)
+
+    # Stack the results to form the Gram matrix for each pair
+    G = torch.stack([
+        torch.stack([aa] + l_inputs, dim=-1),
+        *[torch.stack([l_inputs[i]] + input_dot_products[i], dim=-1) for i in range(len(inputs))]
+    ], dim=-2)
+
+    # Compute the determinant for each Gram matrix
+    gram_det = torch.det(G.float())
+
+    # Compute the square root of the absolute value of the determinants
+    res = torch.sqrt(torch.abs(gram_det))
+    return res
+```
+
+### 🧐 how to use it in practice?  Implementation of the InfoNCE loss with Volume:
+
+```python
+import torch
+import torch.nn.functional as F
+
+# Hyperparameters
+bs = 32
+latent_dim = 512
+contrastive_temp = 0.07
+
+# Output of the encoders
+language = torch.randn((bs,latent_dim))
+video = torch.randn((bs,latent_dim))
+audio = torch.randn((bs,latent_dim))
+
+volume = volume_computation(language,video,audio)
+volume = volume / contrastive_temp
+
+
+volumeT = volume_computation(language,video,audio).T
+volumeT = volumeT / contrastive_temp
+
+targets = torch.linspace(0, bs - 1, bs, dtype=int)
+
+loss = (
+        F.cross_entropy(-volume, targets, label_smoothing=0.1) #d2a
+        + F.cross_entropy(-volumeT, targets, label_smoothing=0.1) #a2d
+) / 2
+
+print(loss)
+
+```
 
 
 ## Building Environment
