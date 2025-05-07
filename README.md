@@ -303,7 +303,7 @@ We used a subset of VAST-27M for the pretraining phase of GRAM. This is the anno
 
 ## Finetune  Model on the 150k subset of VAST27M
 Download annotations150k.json file subset.
-Reference it in scripts/gram/finetune_ret.sh and in config/gram/finetune_cfg/finetune-area.json
+Reference it in scripts/gram/finetune_ret.sh and in config/gram/finetune_cfg/pretrain-gram.json
 ```
 sh scripts/gram/finetune_ret.sh
 ```
